@@ -1,0 +1,2 @@
+# DuckDuckJump
+Gamified fitness app
