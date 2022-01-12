@@ -1,3 +1,5 @@
+/* global poseDetection:readonly */
+
 const video = document.getElementById('video');
 const table = document.getElementById('table');
 const videoSelect = document.getElementById('videoSelect');
@@ -96,5 +98,3 @@ const app = async (videoDeviceId) => {
     alert(error);
   }
 };
-
-// app();
