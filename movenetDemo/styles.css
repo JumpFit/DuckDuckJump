@@ -1,0 +1,8 @@
+body {
+  display: flex;
+}
+
+table, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
