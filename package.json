@@ -1,0 +1,26 @@
+{
+  "name": "duckduckjump",
+  "version": "1.0.0",
+  "description": "Gamified fitness app",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JumpFit/DuckDuckJump.git"
+  },
+  "author": "Carlos, Anthony, Greg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JumpFit/DuckDuckJump/issues"
+  },
+  "homepage": "https://github.com/JumpFit/DuckDuckJump#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7",
+    "phaser": "^3.55.2"
+  }
+}
