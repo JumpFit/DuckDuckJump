@@ -103,7 +103,7 @@ const app = async (videoDeviceId) => {
     // });
 
     const begin = async () => {
-      display.innerText = 'starting now!';
+      display.innerText = 'almost there...';
       const base = {};
 
       setInterval(async () => {
@@ -156,12 +156,12 @@ const app = async (videoDeviceId) => {
                 Math.abs(leftKneeY - leftHipY),
                 Math.abs(rightKneeY - rightHipY)
               ) <=
-              0.6 * base.hipToKnees
+              0.63 * base.hipToKnees
             ) {
               display.innerText = 'squat';
             } else if (
-              dLeftAnkle >= 0.45 * leftAnkleToKnee &&
-              dRightAnkle >= 0.45 * rightAnkleToKnee
+              dLeftAnkle >= 0.42 * leftAnkleToKnee &&
+              dRightAnkle >= 0.42 * rightAnkleToKnee
             ) {
               display.innerText = 'jump';
             } else {
