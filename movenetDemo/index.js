@@ -152,6 +152,11 @@ const app = async (videoDeviceId) => {
             data.innerHTML = `<p>${dLeftAnkle} : ${leftAnkleToKnee}</p><p>${dRightAnkle} : ${rightAnkleToKnee}</p>`;
 
             if (
+              dLeftAnkle >= 0.42 * leftAnkleToKnee &&
+              dRightAnkle >= 0.42 * rightAnkleToKnee
+            ) {
+              display.innerText = 'jump';
+            } else if (
               Math.min(
                 Math.abs(leftKneeY - leftHipY),
                 Math.abs(rightKneeY - rightHipY)
@@ -159,11 +164,6 @@ const app = async (videoDeviceId) => {
               0.63 * base.hipToKnees
             ) {
               display.innerText = 'squat';
-            } else if (
-              dLeftAnkle >= 0.42 * leftAnkleToKnee &&
-              dRightAnkle >= 0.42 * rightAnkleToKnee
-            ) {
-              display.innerText = 'jump';
             } else {
               display.innerText = 'neutral';
             }
