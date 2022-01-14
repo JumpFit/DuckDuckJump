@@ -136,6 +136,12 @@ const app = async (videoDeviceId) => {
                 Math.abs(leftKneeY - leftHipY),
                 Math.abs(rightKneeY - rightHipY)
               );
+            base.anklesToKnees =
+              base.anklesToKnees ||
+              Math.max(
+                Math.abs(leftAnkleY - leftKneeY),
+                Math.abs(rightAnkleY - rightKneeY)
+              );
 
             base.leftAnkleY = Math.max(base.leftAnkleY, leftAnkleY);
             base.rightAnkleY = Math.max(base.rightAnkleY, rightAnkleY);
@@ -144,24 +150,26 @@ const app = async (videoDeviceId) => {
               Math.abs(leftKneeY - leftHipY),
               Math.abs(rightKneeY - rightHipY)
             );
+            base.anklesToKnees = Math.max(
+              base.anklesToKnees,
+              Math.abs(leftAnkleY - leftKneeY),
+              Math.abs(rightAnkleY - rightKneeY)
+            );
 
             const leftAnkleToKnee = Math.abs(leftAnkleY - leftKneeY);
             const rightAnkleToKnee = Math.abs(rightAnkleY - rightKneeY);
             const dLeftAnkle = Math.abs(leftAnkleY - base.leftAnkleY);
             const dRightAnkle = Math.abs(rightAnkleY - base.rightAnkleY);
-            data.innerHTML = `<p>${dLeftAnkle} : ${leftAnkleToKnee}</p><p>${dRightAnkle} : ${rightAnkleToKnee}</p>`;
+            // data.innerHTML = `<p>${dLeftAnkle} : ${dRightAnkle}</p><p>${base.anklesToKnees}</p>`;
 
             if (
-              dLeftAnkle >= 0.42 * leftAnkleToKnee &&
-              dRightAnkle >= 0.42 * rightAnkleToKnee
+              dLeftAnkle >= 0.38 * base.anklesToKnees &&
+              dRightAnkle >= 0.38 * base.anklesToKnees
             ) {
               display.innerText = 'jump';
             } else if (
-              Math.min(
-                Math.abs(leftKneeY - leftHipY),
-                Math.abs(rightKneeY - rightHipY)
-              ) <=
-              0.63 * base.hipToKnees
+              Math.abs(leftKneeY - leftHipY) <= 0.71 * base.hipToKnees &&
+              Math.abs(rightKneeY - rightHipY) <= 0.71 * base.hipToKnees
             ) {
               display.innerText = 'squat';
             } else {
@@ -170,7 +178,7 @@ const app = async (videoDeviceId) => {
           }
           // console.log(calcDistance(points[1], points[2]));
         }
-      }, 33);
+      }, 20);
     };
     display.innerText = 'get ready!';
     setTimeout(begin, 5000);
