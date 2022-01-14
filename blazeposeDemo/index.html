@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Movenet Demo</title>
+  </head>
+  <body>
+    <div id="display">CLICK START!</div>
+    <div id="data">data</div>
+    <div>
+      <select id="videoSelect"></select>
+      <button id="startButton">start</button>
+      <video id="video" width="500" height="500"></video>
+    </div>
+    <table id="table"></table>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+
+    <script src="index.js"></script>
+  </body>
+</html>
