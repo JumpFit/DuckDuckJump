@@ -104,7 +104,7 @@ const app = async (videoDeviceId) => {
 
     const begin = async () => {
       display.innerText = 'almost there...';
-      const base = {};
+      let base = {};
 
       setInterval(async () => {
         const poses = await detector.estimatePoses(video);
@@ -163,8 +163,8 @@ const app = async (videoDeviceId) => {
             // data.innerHTML = `<p>${dLeftAnkle} : ${dRightAnkle}</p><p>${base.anklesToKnees}</p>`;
 
             if (
-              dLeftAnkle >= 0.38 * base.anklesToKnees &&
-              dRightAnkle >= 0.38 * base.anklesToKnees
+              dLeftAnkle >= 0.3 * base.anklesToKnees &&
+              dRightAnkle >= 0.3 * base.anklesToKnees
             ) {
               display.innerText = 'jump';
             } else if (
