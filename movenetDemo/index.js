@@ -1,13 +1,13 @@
 /* global poseDetection:readonly */
 
-const video = document.getElementById('video');
-const table = document.getElementById('table');
-const videoSelect = document.getElementById('videoSelect');
-const startButton = document.getElementById('startButton');
-const display = document.getElementById('display');
-const data = document.getElementById('data');
+const video = document.getElementById("video");
+const table = document.getElementById("table");
+const videoSelect = document.getElementById("videoSelect");
+const startButton = document.getElementById("startButton");
+const display = document.getElementById("display");
+const data = document.getElementById("data");
 
-startButton.addEventListener('click', () => {
+startButton.addEventListener("click", () => {
   const videoDeviceId = videoSelect.value;
   if (videoDeviceId) {
     app(videoDeviceId);
@@ -22,20 +22,22 @@ const updateTable = (poses) => {
       (bodyPart) =>
         `<tr><td>${bodyPart.name}</td><td>${bodyPart.x}</td><td>${bodyPart.y}</td><td>${bodyPart.score}</td></tr>`
     )
-    .join('');
+    .join("");
   table.innerHTML = header + rows;
 };
 
 // Fill out the select table with video devices:
-navigator.mediaDevices.enumerateDevices().then((devices) => {
-  const options = devices
-    .map((device) =>
-      device.deviceId
-        ? `<option value='${device.deviceId}'>${device.label}</option>`
-        : ''
-    )
-    .join('');
-  videoSelect.innerHTML = options;
+navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
+  navigator.mediaDevices.enumerateDevices().then((devices) => {
+    const options = devices
+      .map((device) =>
+        device.deviceId
+          ? `<option value='${device.deviceId}'>${device.label}</option>`
+          : ""
+      )
+      .join("");
+    videoSelect.innerHTML = options;
+  });
 });
 
 // calculate distance between 2 points:
@@ -103,7 +105,7 @@ const app = async (videoDeviceId) => {
     // });
 
     const begin = async () => {
-      display.innerText = 'almost there...';
+      display.innerText = "almost there...";
       let base = {};
 
       setInterval(async () => {
@@ -166,21 +168,21 @@ const app = async (videoDeviceId) => {
               dLeftAnkle >= 0.3 * base.anklesToKnees &&
               dRightAnkle >= 0.3 * base.anklesToKnees
             ) {
-              display.innerText = 'jump';
+              display.innerText = "jump";
             } else if (
               Math.abs(leftKneeY - leftHipY) <= 0.71 * base.hipToKnees &&
               Math.abs(rightKneeY - rightHipY) <= 0.71 * base.hipToKnees
             ) {
-              display.innerText = 'squat';
+              display.innerText = "squat";
             } else {
-              display.innerText = 'neutral';
+              display.innerText = "neutral";
             }
           }
           // console.log(calcDistance(points[1], points[2]));
         }
       }, 20);
     };
-    display.innerText = 'get ready!';
+    display.innerText = "get ready!";
     setTimeout(begin, 5000);
   } catch (error) {
     detector.dispose();
