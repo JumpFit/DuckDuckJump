@@ -27,15 +27,17 @@ const updateTable = (poses) => {
 };
 
 // Fill out the select table with video devices:
-navigator.mediaDevices.enumerateDevices().then((devices) => {
-  const options = devices
-    .map((device) =>
-      device.deviceId
-        ? `<option value='${device.deviceId}'>${device.label}</option>`
-        : ''
-    )
-    .join('');
-  videoSelect.innerHTML = options;
+navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
+  navigator.mediaDevices.enumerateDevices().then((devices) => {
+    const options = devices
+      .map((device) =>
+        device.deviceId
+          ? `<option value='${device.deviceId}'>${device.label}</option>`
+          : ''
+      )
+      .join('');
+    videoSelect.innerHTML = options;
+  });
 });
 
 // calculate distance between 2 points:
