@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon webpack serve --config './webpack.config.dev.js'"
+    "start": "npx webpack serve --config ./webpack.config.dev.js"
   },
   "repository": {
     "type": "git",

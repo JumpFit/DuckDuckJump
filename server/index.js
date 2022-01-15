@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const { db } = require('./db');
 
 const app = express();
 
@@ -38,6 +39,8 @@ const PORT = 8080;
 
 const startServer = async () => {
   try {
+    await db.sync();
+
     app.listen(PORT, () => {
       console.log(`server is listening on port ${PORT}`);
     });
