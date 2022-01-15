@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx webpack serve --config ./webpack.config.dev.js"
+    "start": "nodemon webpack serve --config './webpack.config.dev.js'"
   },
   "repository": {
     "type": "git",
@@ -18,10 +18,15 @@
   },
   "homepage": "https://github.com/JumpFit/DuckDuckJump#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "nodemon": "^2.0.15",
     "path": "^0.12.7",
-    "phaser": "^3.55.2"
+    "pg": "^8.7.1",
+    "phaser": "^3.55.2",
+    "sequelize": "^6.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",

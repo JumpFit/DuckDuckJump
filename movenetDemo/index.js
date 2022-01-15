@@ -15,16 +15,16 @@ startButton.addEventListener('click', () => {
 });
 
 // Update table with pose info
-const updateTable = (poses) => {
-  const header = `<tr><td>name</td><td>x</td><td>y</td><td>score</td></tr>`;
-  const rows = poses[0].keypoints
-    .map(
-      (bodyPart) =>
-        `<tr><td>${bodyPart.name}</td><td>${bodyPart.x}</td><td>${bodyPart.y}</td><td>${bodyPart.score}</td></tr>`
-    )
-    .join('');
-  table.innerHTML = header + rows;
-};
+// const updateTable = (poses) => {
+//   const header = `<tr><td>name</td><td>x</td><td>y</td><td>score</td></tr>`;
+//   const rows = poses[0].keypoints
+//     .map(
+//       (bodyPart) =>
+//         `<tr><td>${bodyPart.name}</td><td>${bodyPart.x}</td><td>${bodyPart.y}</td><td>${bodyPart.score}</td></tr>`
+//     )
+//     .join('');
+//   table.innerHTML = header + rows;
+// };
 
 // Fill out the select table with video devices:
 navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
@@ -44,6 +44,7 @@ navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
 const calcDistance = (v1, v2) => {
   const dX = Math.abs(v1.x - v2.x);
   const dY = Math.abs(v1.y - v2.y);
+  ``;
   return Math.sqrt(dX * dX + dY * dY);
 };
 
@@ -113,7 +114,7 @@ const app = async (videoDeviceId) => {
 
         // If we have poses:
         if (poses.length) {
-          updateTable(poses);
+          // updateTable(poses);
           const points = poses[0].keypoints;
           let confident = true;
           for (let i = 11; i <= 16; i++) {
