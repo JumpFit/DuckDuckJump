@@ -1,32 +1,18 @@
 /* global poseDetection:readonly */
 
 const video = document.getElementById('video');
-const table = document.getElementById('table');
 const videoSelect = document.getElementById('videoSelect');
 const startButton = document.getElementById('startButton');
 const display = document.getElementById('display');
-const data = document.getElementById('data');
+let detector;
 
+// Listen for user to press start
 startButton.addEventListener('click', () => {
   const videoDeviceId = videoSelect.value;
-  if (videoDeviceId) {
-    app(videoDeviceId);
-  }
+  beginPoseDetection(videoDeviceId, 60);
 });
 
-// Update table with pose info
-const updateTable = (poses) => {
-  const header = `<tr><td>name</td><td>x</td><td>y</td><td>score</td></tr>`;
-  const rows = poses[0].keypoints
-    .map(
-      (bodyPart) =>
-        `<tr><td>${bodyPart.name}</td><td>${bodyPart.x}</td><td>${bodyPart.y}</td><td>${bodyPart.score}</td></tr>`
-    )
-    .join('');
-  table.innerHTML = header + rows;
-};
-
-// Fill out the select table with video devices:
+// Fill out the option select with video devices:
 navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
   navigator.mediaDevices.enumerateDevices().then((devices) => {
     const options = devices
@@ -40,14 +26,22 @@ navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
   });
 });
 
-// calculate distance between 2 points:
+/**
+ * Calculate distance between 2 points
+ * @param {Keypoint} v1
+ * @param {Keypoint} v2
+ * @returns {Number} distance between v1 and v2
+ */
 const calcDistance = (v1, v2) => {
   const dX = Math.abs(v1.x - v2.x);
   const dY = Math.abs(v1.y - v2.y);
   return Math.sqrt(dX * dX + dY * dY);
 };
 
-// Create detector function
+/**
+ * Create detector function
+ * @returns {PoseDetector} detector instance
+ */
 const createDetector = async () => {
   const detectorConfig = {
     modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
@@ -60,13 +54,20 @@ const createDetector = async () => {
   return detector;
 };
 
-// Get stream function
+/**
+ *
+ * @param {String} videoDeviceId
+ * @returns {Stream} video stream of selected device id
+ */
 const getStream = async (videoDeviceId) => {
   try {
+    const video = videoDeviceId
+      ? {
+          deviceId: videoDeviceId,
+        }
+      : { facingMode: 'user' };
     return await navigator.mediaDevices.getUserMedia({
-      video: {
-        deviceId: videoDeviceId,
-      },
+      video,
       audio: false,
     });
   } catch (error) {
@@ -74,10 +75,20 @@ const getStream = async (videoDeviceId) => {
   }
 };
 
-// Main app
-const app = async (videoDeviceId) => {
-  // console.log('started');
-  const detector = await createDetector();
+/**
+ * Empty Pose Class
+ */
+class EmptyPose {
+  constructor() {
+    this.leftAnkleQueue = [];
+    this.rightAnkleQueue = [];
+  }
+}
+
+// Begin Pose Detection
+const beginPoseDetection = async (videoDeviceId, fps) => {
+  display.innerText = 'Here we go!';
+  let base = new EmptyPose();
   try {
     const stream = await getStream(videoDeviceId);
     video.srcObject = stream;
@@ -88,104 +99,119 @@ const app = async (videoDeviceId) => {
     });
     video.play();
 
-    // let captureNumber = 0;
+    setInterval(async () => {
+      // Estimate the pose
+      const poses = await detector.estimatePoses(video);
 
-    // document.addEventListener('keydown', async (evt) => {
-    //   console.log(evt);
-    //   if (evt.key === 'PageUp') {
-    //     evt.preventDefault();
-    //     const poses = await detector.estimatePoses(video);
-    //     if (poses.length) {
-    //       captureNumber++;
-    //       console.log(`CAPTURE: ${captureNumber}`);
-    //       updateTable(poses);
-    //       console.log(JSON.stringify(poses));
-    //     }
-    //   }
-    // });
+      // If a pose exists:
+      if (poses.length) {
+        const points = poses[0].keypoints;
 
-    const begin = async () => {
-      display.innerText = 'almost there...';
-      let base = {};
-
-      setInterval(async () => {
-        const poses = await detector.estimatePoses(video);
-
-        // If we have poses:
-        if (poses.length) {
-          updateTable(poses);
-          const points = poses[0].keypoints;
-          let confident = true;
-          for (let i = 11; i <= 16; i++) {
-            if (points[i].score < 0.6) {
-              confident = false;
-              break;
-            }
+        // Make sure we have all needed skeleton points:
+        let confident = true;
+        const skeletonPoints = [5, 6, 11, 12, 13, 14, 15, 16];
+        for (let i of skeletonPoints) {
+          if (points[i].score < 0.65) {
+            confident = false;
+            break;
           }
-          if (confident) {
-            const leftAnkleY = points[15].y;
-            const rightAnkleY = points[16].y;
-            const leftKneeY = points[13].y;
-            const rightKneeY = points[14].y;
-            const leftHipY = points[11].y;
-            const rightHipY = points[12].y;
+        }
 
-            base.leftAnkleY = base.leftAnkleY || leftAnkleY;
-            base.rightAnkleY = base.rightAnkleY || rightAnkleY;
-            base.hipToKnees =
-              base.hipToKnees ||
-              Math.max(
-                Math.abs(leftKneeY - leftHipY),
-                Math.abs(rightKneeY - rightHipY)
-              );
-            base.anklesToKnees =
-              base.anklesToKnees ||
-              Math.max(
-                Math.abs(leftAnkleY - leftKneeY),
-                Math.abs(rightAnkleY - rightKneeY)
-              );
+        // If we are confident in our points:
+        if (confident) {
+          // Check if shoulder width has changed much.  If so, user has moved closer or further from camera, so start with fresh base data
+          const shoulderWidth = calcDistance(points[5], points[6]);
+          base.shoulderWidth = base.shoulderWidth || shoulderWidth;
+          if (
+            Math.abs(shoulderWidth - base.shoulderWidth) / base.shoulderWidth >
+            0.1
+          ) {
+            base = new EmptyPose();
+          }
 
-            base.leftAnkleY = Math.max(base.leftAnkleY, leftAnkleY);
-            base.rightAnkleY = Math.max(base.rightAnkleY, rightAnkleY);
-            base.hipToKnees = Math.max(
-              base.hipToKnees,
+          // Set current points:
+          const leftAnkleY = points[15].y;
+          const rightAnkleY = points[16].y;
+          const leftKneeY = points[13].y;
+          const rightKneeY = points[14].y;
+          const leftHipY = points[11].y;
+          const rightHipY = points[12].y;
+
+          // Add ankles to Queue:
+          base.leftAnkleQueue.push(leftAnkleY);
+          base.rightAnkleQueue.push(rightAnkleY);
+
+          // Remove ankle data older than 1.5s from queue
+          if (base.leftAnkleQueue.length > fps * 1.5) {
+            base.leftAnkleQueue.shift();
+            base.rightAnkleQueue.shift();
+          }
+          base.leftAnkleY = Math.max(...base.leftAnkleQueue);
+          base.rightAnkleY = Math.max(...base.leftAnkleQueue);
+
+          // Update other base data
+          base.hipToKnees =
+            base.hipToKnees ||
+            Math.max(
               Math.abs(leftKneeY - leftHipY),
               Math.abs(rightKneeY - rightHipY)
             );
-            base.anklesToKnees = Math.max(
-              base.anklesToKnees,
+
+          base.anklesToKnees =
+            base.anklesToKnees ||
+            Math.max(
               Math.abs(leftAnkleY - leftKneeY),
               Math.abs(rightAnkleY - rightKneeY)
             );
 
-            const leftAnkleToKnee = Math.abs(leftAnkleY - leftKneeY);
-            const rightAnkleToKnee = Math.abs(rightAnkleY - rightKneeY);
-            const dLeftAnkle = Math.abs(leftAnkleY - base.leftAnkleY);
-            const dRightAnkle = Math.abs(rightAnkleY - base.rightAnkleY);
-            // data.innerHTML = `<p>${dLeftAnkle} : ${dRightAnkle}</p><p>${base.anklesToKnees}</p>`;
+          base.hipToKnees = Math.max(
+            base.hipToKnees,
+            Math.abs(leftKneeY - leftHipY),
+            Math.abs(rightKneeY - rightHipY)
+          );
 
-            if (
-              dLeftAnkle >= 0.3 * base.anklesToKnees &&
-              dRightAnkle >= 0.3 * base.anklesToKnees
-            ) {
-              display.innerText = 'jump';
-            } else if (
-              Math.abs(leftKneeY - leftHipY) <= 0.71 * base.hipToKnees &&
-              Math.abs(rightKneeY - rightHipY) <= 0.71 * base.hipToKnees
-            ) {
-              display.innerText = 'squat';
-            } else {
-              display.innerText = 'neutral';
-            }
+          base.anklesToKnees = Math.max(
+            base.anklesToKnees,
+            Math.abs(leftAnkleY - leftKneeY),
+            Math.abs(rightAnkleY - rightKneeY)
+          );
+
+          // Calculate height of feet off "ground"
+          const dLeftAnkle = Math.abs(leftAnkleY - base.leftAnkleY);
+          const dRightAnkle = Math.abs(rightAnkleY - base.rightAnkleY);
+
+          if (
+            // JUMP CONDITIONS::
+            dLeftAnkle >= 0.29 * base.anklesToKnees &&
+            dRightAnkle >= 0.29 * base.anklesToKnees
+          ) {
+            display.innerText = 'jump';
+          } else if (
+            // SQUAT CONDITIONS:
+            Math.abs(leftKneeY - leftHipY) <= 0.71 * base.hipToKnees &&
+            Math.abs(rightKneeY - rightHipY) <= 0.71 * base.hipToKnees
+          ) {
+            display.innerText = 'squat';
+          } else {
+            // NEUTRAL:
+            display.innerText = 'neutral';
           }
-          // console.log(calcDistance(points[1], points[2]));
         }
-      }, 20);
-    };
-    display.innerText = 'get ready!';
-    setTimeout(begin, 5000);
+      }
+    }, 1000 / fps);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Main app
+const app = async () => {
+  try {
+    detector = await createDetector();
   } catch (error) {
     detector.dispose();
     alert(error);
   }
 };
+
+app();
