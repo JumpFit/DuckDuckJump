@@ -5,7 +5,7 @@ const videoSelect = document.getElementById('videoSelect');
 const startButton = document.getElementById('startButton');
 const stopButton = document.getElementById('stopButton');
 const display = document.getElementById('display');
-let detector, rafId, base, time;
+let detector, rafId, base;
 
 let MIN_CONFIDENCE = 0.3,
   SHOULDER_CONFIDENCE = 0.4;
@@ -105,6 +105,7 @@ class EmptyPose {
   constructor() {
     this.leftAnkleQueue = [];
     this.rightAnkleQueue = [];
+    this.timer = 0;
   }
 }
 
@@ -112,13 +113,6 @@ class EmptyPose {
  * MAIN POSE DETECTOR FUNCTION
  */
 const getPose = async () => {
-  // Calculate FPS
-  const currentTime = (performance || Date).now();
-  const prevTime = time || currentTime;
-  const elapsedTime = (currentTime - prevTime) / 1000;
-  const fps = elapsedTime ? 1 / elapsedTime : Infinity;
-  time = currentTime;
-
   // Estimate the pose
   try {
     const poses = await detector.estimatePoses(video);
@@ -168,9 +162,11 @@ const getPose = async () => {
         base.rightAnkleQueue.push(rightAnkleY);
 
         // Remove ankle data older than 1.5s from queue
-        if (base.leftAnkleQueue.length > fps * 1.5) {
+        const elapsedTime = (performance || Date).now() - base.timer;
+        if (base.leftAnkleQueue.length > 1 && elapsedTime > 1500) {
           base.leftAnkleQueue.shift();
           base.rightAnkleQueue.shift();
+          base.timer = 0;
         }
         base.leftAnkleY = Math.max(...base.leftAnkleQueue);
         base.rightAnkleY = Math.max(...base.leftAnkleQueue);
@@ -238,7 +234,6 @@ const getPose = async () => {
 const beginPoseDetection = () => {
   display.innerText = 'Here we go!';
   base = new EmptyPose();
-  time = 0;
   getPose();
 };
 
