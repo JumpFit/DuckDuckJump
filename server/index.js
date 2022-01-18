@@ -39,7 +39,11 @@ const PORT = 8080;
 
 const startServer = async () => {
   try {
-    await db.sync();
+    if (process.env.SEED === 'true') {
+      await seed();
+    } else {
+      await db.sync();
+    }
 
     app.listen(PORT, () => {
       console.log(`server is listening on port ${PORT}`);
