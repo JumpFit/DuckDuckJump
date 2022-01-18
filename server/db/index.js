@@ -10,7 +10,6 @@ Game.belongsTo(User);
 User.belongsToMany(Character, { through: 'UserCharacter' });
 Character.belongsToMany(User, { through: 'UserCharacter' });
 
-User.belongsToMany(User, { through: 'Connection' });
-User.belongsToMany(User, { through: 'Connection' });
+User.belongsToMany(User, { through: 'Connection', as: 'Friend' });
 
 module.exports = { db, models: { Character, Game, User } };
