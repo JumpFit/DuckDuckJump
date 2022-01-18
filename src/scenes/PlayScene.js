@@ -6,10 +6,17 @@ export default class PlayScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('star', '../../public/assets/star.png');
+    this.load.image('star', 'assets/star.png');
+    this.load.atlas(
+      'duck',
+      'assets/characters/duck.png',
+      'assets/characters/duck.json'
+    );
   }
 
   create() {
-    this.add.image(game.config.width / 2, game.config.height / 2, 'star');
+    const { width, height } = this.scale;
+    this.add.image(width / 2, height / 2, 'star');
+    this.add.image(width * 0.5, height * 0.5, 'duck');
   }
 }

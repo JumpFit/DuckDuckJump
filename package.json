@@ -4,8 +4,12 @@
   "description": "Gamified fitness app",
   "main": "index.html",
   "scripts": {
+    "build": "webpack",
+    "build:dev": "npm run build -- --watch --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx webpack serve --config ./webpack.config.dev.js"
+    "start:dev": "npm run build:dev & npm run start-server",
+    "start": "npx webpack serve --config ./webpack.config.dev.js",
+    "start-server": "nodemon server -e html,js,scss --ignore public --ignore client"
   },
   "repository": {
     "type": "git",
