@@ -5,10 +5,12 @@ const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
+  parent: 'game',
+  backgroundColor: '#5DACD8',
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 200 },
+      gravity: { y: 0 },
     },
   },
   scene: [PlayScene],
