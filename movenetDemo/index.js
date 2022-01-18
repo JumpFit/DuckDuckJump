@@ -7,7 +7,7 @@ const stopButton = document.getElementById('stopButton');
 const display = document.getElementById('display');
 let detector, rafId, base;
 
-let MIN_CONFIDENCE = 0.3,
+const MIN_CONFIDENCE = 0.3,
   SHOULDER_CONFIDENCE = 0.4;
 
 // --- HELPER FUNCTIONS --- //
@@ -29,6 +29,7 @@ const isMobile = () =>
 const calcDistance = (v1, v2) => {
   const dX = Math.abs(v1.x - v2.x);
   const dY = Math.abs(v1.y - v2.y);
+  ``;
   return Math.sqrt(dX * dX + dY * dY);
 };
 
@@ -108,6 +109,7 @@ class EmptyPose {
     this.timer = (performance || Date).now();
   }
 }
+
 
 /**
  * MAIN POSE DETECTOR FUNCTION
@@ -225,6 +227,7 @@ const getPose = async () => {
     rafId = requestAnimationFrame(getPose);
   } catch (error) {
     detector.dispose();
+    cancelAnimationFrame(rafId);
   }
 };
 
