@@ -1,5 +1,7 @@
 # DuckDuckJump
-Gamified fitness app 🦆
+Gamified fitness app 🦆 
+
+A workout game you can control hands free that combines both fitness and your inner gamer without needing to buy an expensive console
 
 # MVP
 
@@ -39,5 +41,8 @@ Intended audience would be for those that are interested in fitness or those who
 ## Technologies
   * TensorFlow.js for pose detection
   * Phaser.js for game engine
+  * Express.js
+  * PostgreSQL
+  * Node.js
 
 

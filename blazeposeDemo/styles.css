@@ -1,0 +1,19 @@
+body {
+  /* display: flex; */
+}
+
+table, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  display:none;
+}
+
+#display {
+  font-size: 10rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#data {
+  font-size: 2rem;
+  /* display: none; */
+}
