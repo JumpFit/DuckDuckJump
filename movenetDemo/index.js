@@ -105,7 +105,7 @@ class EmptyPose {
   constructor() {
     this.leftAnkleQueue = [];
     this.rightAnkleQueue = [];
-    this.timer = 0;
+    this.timer = (performance || Date).now();
   }
 }
 
@@ -166,7 +166,7 @@ const getPose = async () => {
         if (base.leftAnkleQueue.length > 1 && elapsedTime > 1500) {
           base.leftAnkleQueue.shift();
           base.rightAnkleQueue.shift();
-          base.timer = 0;
+          base.timer = (performance || Date).now();
         }
         base.leftAnkleY = Math.max(...base.leftAnkleQueue);
         base.rightAnkleY = Math.max(...base.leftAnkleQueue);
