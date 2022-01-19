@@ -6,9 +6,9 @@ export class Player extends Actor {
 
     // KEYS
     this.cursors = this.scene.input.keyboard.createCursorKeys();
-    console.log(this.cursors);
 
     // PHYSICS
+    // For the future, use these to make adjustmeents as needed:
     // this.body.setSize(30, 30);
     // this.body.setOffset(8, 0);
 
@@ -78,6 +78,8 @@ export class Player extends Actor {
   }
 
   update() {
+    this.scene.cameras.main.setPosition(-this.x + this.width, 0);
+    // this.body.setVelocityX(100);
     const landed = this.body.touching.down || this.body.onFloor();
     if (this.cursors.up.isDown && landed) {
       this.body.setVelocityY(-330);
