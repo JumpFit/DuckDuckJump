@@ -35,7 +35,13 @@ export default class PlayScene extends Phaser.Scene {
     // this.add.image(width * 0.5, height * 0.5, 'duck');
     this.player = new Player(this, 0, height);
 
-    this.webcam = new WebCam(this, width / 2, height / 2, 'webcam');
+    this.webcam = new WebCam(
+      this.player,
+      this,
+      width / 2,
+      height / 2,
+      'webcam'
+    );
   }
 
   update() {
