@@ -10,6 +10,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// routes for auth
+app.use('/auth', require('./auth'));
+
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, '..', 'public')));
 

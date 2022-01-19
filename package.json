@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/JumpFit/DuckDuckJump#readme",
   "dependencies": {
+    "axios": "^0.25.0",
     "bcrypt": "^5.0.1",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
