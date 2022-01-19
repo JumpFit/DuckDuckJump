@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { Player } from '../classes/Player';
 
 let frontClouds;
 let backClouds;
@@ -22,19 +23,21 @@ export default class PlayScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale;
-    
+
     backClouds = this.add.tileSprite(400, 75, 13500, 150, 'back-clouds');
     frontClouds = this.add.tileSprite(400, 75, 13500, 150, 'front-clouds');
-    
+
     const map = this.make.tilemap({ key: 'tilemap' });
     const tileset = map.addTilesetImage('sheet', 'tiles');
     const ground = map.createLayer('track', tileset);
-    
-    this.add.image(width * 0.5, height * 0.5, 'duck');
+
+    // this.add.image(width * 0.5, height * 0.5, 'duck');
+    this.player = new Player(this, 0, height);
   }
 
   update() {
     frontClouds.tilePositionX += 0.5;
     backClouds.tilePositionX += 0.25;
+    this.player.update();
   }
 }

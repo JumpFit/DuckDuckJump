@@ -1,0 +1,93 @@
+import { Actor } from './Actor';
+
+export class Player extends Actor {
+  constructor(scene, x, y) {
+    super(scene, x, y, 'duck');
+
+    // KEYS
+    this.cursors = this.scene.input.keyboard.createCursorKeys();
+    console.log(this.cursors);
+
+    // PHYSICS
+    // this.body.setSize(30, 30);
+    // this.body.setOffset(8, 0);
+
+    // ANIMATION
+    this.initAnimations();
+  }
+
+  initAnimations() {
+    this.scene.anims.create({
+      key: 'idle',
+      frames: this.scene.anims.generateFrameNames('duck', {
+        prefix: 'idle-',
+        end: 1,
+      }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.scene.anims.create({
+      key: 'walk',
+      frames: this.scene.anims.generateFrameNames('duck', {
+        prefix: 'walk-',
+        end: 1,
+      }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.scene.anims.create({
+      key: 'run',
+      frames: this.scene.anims.generateFrameNames('duck', {
+        prefix: 'run-',
+        end: 1,
+      }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.scene.anims.create({
+      key: 'jump',
+      frames: this.scene.anims.generateFrameNames('duck', {
+        prefix: 'jump-',
+        end: 0,
+      }),
+      frameRate: 8,
+    });
+
+    this.scene.anims.create({
+      key: 'duck',
+      frames: this.scene.anims.generateFrameNames('duck', {
+        prefix: 'duck-',
+        end: 0,
+      }),
+      frameRate: 8,
+    });
+
+    this.scene.anims.create({
+      key: 'dead',
+      frames: this.scene.anims.generateFrameNames('duck', {
+        prefix: 'dead-',
+        end: 0,
+      }),
+      frameRate: 8,
+    });
+
+    this.anims.play('idle', true);
+  }
+
+  update() {
+    const landed = this.body.touching.down || this.body.onFloor();
+    if (this.cursors.up.isDown && landed) {
+      this.body.setVelocityY(-330);
+    }
+    if (this.cursors.down.isDown) {
+      this.anims.play('duck', true);
+    } else if (landed && !this.cursors.up.isDown) {
+      this.anims.play('walk', true);
+    } else if (!landed) {
+      this.anims.play('jump', true);
+    }
+  }
+}
