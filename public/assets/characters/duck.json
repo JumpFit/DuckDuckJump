@@ -1,23 +1,6 @@
 {"frames": [
-
 {
-	"filename": "Crouching 001.png",
-	"frame": {"x":0,"y":0,"w":96,"h":96},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
-	"sourceSize": {"w":96,"h":96}
-},
-{
-	"filename": "Dead 001.png",
-	"frame": {"x":96,"y":0,"w":96,"h":96},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
-	"sourceSize": {"w":96,"h":96}
-},
-{
-	"filename": "Idle 001.png",
+	"filename": "idle-0",
 	"frame": {"x":192,"y":0,"w":96,"h":96},
 	"rotated": false,
 	"trimmed": false,
@@ -25,7 +8,7 @@
 	"sourceSize": {"w":96,"h":96}
 },
 {
-	"filename": "Idle 002.png",
+	"filename": "idle-1",
 	"frame": {"x":288,"y":0,"w":96,"h":96},
 	"rotated": false,
 	"trimmed": false,
@@ -33,31 +16,7 @@
 	"sourceSize": {"w":96,"h":96}
 },
 {
-	"filename": "Jumping 001.png",
-	"frame": {"x":384,"y":0,"w":96,"h":96},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
-	"sourceSize": {"w":96,"h":96}
-},
-{
-	"filename": "Running 001.png",
-	"frame": {"x":480,"y":0,"w":96,"h":96},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
-	"sourceSize": {"w":96,"h":96}
-},
-{
-	"filename": "Running 002.png",
-	"frame": {"x":576,"y":0,"w":96,"h":96},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
-	"sourceSize": {"w":96,"h":96}
-},
-{
-	"filename": "Walking 001.png",
+	"filename": "walk-0",
 	"frame": {"x":672,"y":0,"w":96,"h":96},
 	"rotated": false,
 	"trimmed": false,
@@ -65,8 +24,48 @@
 	"sourceSize": {"w":96,"h":96}
 },
 {
-	"filename": "Walking 002.png",
+	"filename": "walk-1",
 	"frame": {"x":768,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "run-0",
+	"frame": {"x":480,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "run-1",
+	"frame": {"x":576,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "duck-0",
+	"frame": {"x":0,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "dead-0",
+	"frame": {"x":96,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "jump-0",
+	"frame": {"x":384,"y":0,"w":96,"h":96},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},

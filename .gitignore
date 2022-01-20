@@ -105,3 +105,6 @@ dist
 
 # VSCode settings
 .vscode
+
+# Bundle.js file
+bundle.js
