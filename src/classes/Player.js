@@ -81,15 +81,24 @@ export class Player extends Actor {
     this.scene.cameras.main.setPosition(-this.x + this.width, 0);
     this.body.setVelocityX(100);
     const landed = this.body.touching.down || this.body.onFloor();
-    if (this.cursors.up.isDown && landed) {
-      this.body.setVelocityY(-330);
-    }
-    if (this.cursors.down.isDown) {
+
+    this.on('jump', () => {
+      if (landed) {
+        this.anims.play('jump', true);
+        this.body.setVelocityY(-330);
+      }
+    });
+
+    this.on('duck', () => {
       this.anims.play('duck', true);
-    } else if (landed && !this.cursors.up.isDown) {
-      this.anims.play('walk', true);
-    } else if (!landed) {
-      this.anims.play('jump', true);
-    }
+    });
+
+    this.on('neutral', () => {
+      if (landed) {
+        this.anims.play('walk', true);
+      } else {
+        this.anims.play('jump', true);
+      }
+    });
   }
 }

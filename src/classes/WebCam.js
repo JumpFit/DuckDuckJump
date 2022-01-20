@@ -3,8 +3,9 @@ import Camera from '../pose-detection/Camera';
 import Detector from '../pose-detection/detector';
 
 export default class WebCam extends Phaser.GameObjects.Video {
-  constructor(scene, x, y, key) {
+  constructor(player, scene, x, y, key) {
     super(scene, x, y, key);
+    this.player = player;
     scene.add.existing(this);
     this.init();
   }
@@ -15,21 +16,19 @@ export default class WebCam extends Phaser.GameObjects.Video {
     this.loadMediaStream(stream);
 
     const squat = () => {
-      document.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'ArrowDown' })
-      );
+      this.player.emit('duck');
     };
 
     const jump = () => {
-      console.log('jump');
+      this.player.emit('jump');
     };
 
     const neutral = () => {
-      console.log('neutral');
+      this.player.emit('neutral');
     };
 
     const error = () => {
-      console.log('not in frame');
+      // Not in frame
     };
 
     await new Promise((resolve) => {
