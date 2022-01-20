@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "npm run build:dev & npm run start-server",
     "start": "npx webpack serve --config ./webpack.config.dev.js",
-    "start-server": "nodemon server -e html,js,scss --ignore public --ignore client"
+    "start-server": "JWT=shh nodemon server -e html,js,scss --ignore public --ignore client"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
     "@tensorflow/tfjs-backend-webgl": "^3.13.0",
     "@tensorflow/tfjs-converter": "^3.13.0",
     "@tensorflow/tfjs-core": "^3.13.0",
+    "axios": "^0.25.0",
     "bcrypt": "^5.0.1",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",

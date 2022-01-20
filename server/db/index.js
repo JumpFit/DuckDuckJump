@@ -7,9 +7,9 @@ const User = require('./models/User');
 User.hasMany(Game);
 Game.belongsTo(User);
 
-User.belongsToMany(Character, { through: 'UserCharacter' });
-Character.belongsToMany(User, { through: 'UserCharacter' });
+User.belongsToMany(Character, { through: 'userCharacter' });
+Character.belongsToMany(User, { through: 'userCharacter' });
 
-User.belongsToMany(User, { through: 'Connection', as: 'Friend' });
+User.belongsToMany(User, { through: 'connection', as: 'friend' });
 
 module.exports = { db, models: { Character, Game, User } };
