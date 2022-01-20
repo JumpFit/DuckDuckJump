@@ -78,6 +78,7 @@ export class Player extends Actor {
   }
 
   update() {
+    //I assume the player camera has to be done on the scene level as commenting this out fixed the issue with the camera only going so far
     //this.scene.cameras.main.setPosition(-this.x + this.width, 0);
     this.body.setVelocityX(100);
     const landed = this.body.touching.down || this.body.onFloor();

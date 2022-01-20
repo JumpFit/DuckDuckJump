@@ -26,6 +26,7 @@ export default class PlayScene extends Phaser.Scene {
   create() {
     const { width, height } = this.scale;
 
+    //Moved webcam to top of create function so that it renders behind everything else
     this.webcam = new WebCam(
       this.player,
       this,
@@ -44,9 +45,14 @@ export default class PlayScene extends Phaser.Scene {
     // this.add.image(width * 0.5, height * 0.5, 'duck');
     this.player = new Player(this, 0, height);
 
+    //sets the bounds of the world to the entire width of the provided tilemap from line 42
     this.physics.world.bounds.width = ground.width;
+
+    //Makes it so that the camera can only move around within the tilemap's parameters and doesn't stretch outside
     const camera = this.cameras.main;
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+    //manual camera control examples
     // const cursors = this.input.keyboard.createCursorKeys();
     // controls = new Phaser.Cameras.Controls.FixedKeyControl({
     //   camera: camera,
@@ -56,6 +62,8 @@ export default class PlayScene extends Phaser.Scene {
     //   down: cursors.down,
     //   speed: 0.5,
     // });
+
+    //Focuses camera on player character so it moves when they move
     camera.startFollow(this.player);
   }
 
@@ -63,6 +71,6 @@ export default class PlayScene extends Phaser.Scene {
     frontClouds.tilePositionX += 0.5;
     backClouds.tilePositionX += 0.25;
     this.player.update(delta);
-    //controls.update(delta);
+    //controls.update(delta); uncomment to allow manual camera controls
   }
 }
