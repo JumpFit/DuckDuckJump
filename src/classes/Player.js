@@ -9,8 +9,8 @@ export class Player extends Actor {
 
     // PHYSICS
     // For the future, use these to make adjustmeents as needed:
-    // this.body.setSize(30, 30);
-    // this.body.setOffset(8, 0);
+    this.body.setSize(30, 30);
+    this.body.setOffset(40, 70);
 
     // ANIMATION
     this.initAnimations();
@@ -78,10 +78,16 @@ export class Player extends Actor {
   }
 
   update() {
-    this.scene.cameras.main.setPosition(-this.x + this.width, 0);
+    //I assume the player camera has to be done on the scene level as commenting this out fixed the issue with the camera only going so far
+    //this.scene.cameras.main.setPosition(-this.x + this.width, 0);
     this.body.setVelocityX(100);
     const landed = this.body.touching.down || this.body.onFloor();
 
+    if (this.cursors.space.isDown) {
+      this.emit('jump');
+    } else {
+      this.emit('neutral');
+    }
     this.on('jump', () => {
       if (landed) {
         this.anims.play('jump', true);
@@ -95,7 +101,7 @@ export class Player extends Actor {
 
     this.on('neutral', () => {
       if (landed) {
-        this.anims.play('walk', true);
+        this.anims.play('run', true);
       } else {
         this.anims.play('jump', true);
       }
