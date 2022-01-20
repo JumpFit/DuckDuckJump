@@ -78,7 +78,7 @@ export class Player extends Actor {
   }
 
   update() {
-    this.scene.cameras.main.setPosition(-this.x + this.width, 0);
+    //this.scene.cameras.main.setPosition(-this.x + this.width, 0);
     this.body.setVelocityX(100);
     const landed = this.body.touching.down || this.body.onFloor();
 
