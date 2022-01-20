@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
 import PlayScene from './scenes/PlayScene';
+import SignupScene from './scenes/SignupScene';
+import LoginScene from './scenes/LoginScene';
 
 const config = {
   type: Phaser.AUTO,
@@ -7,13 +9,16 @@ const config = {
   height: 600,
   parent: 'game',
   backgroundColor: '#5DACD8',
+  dom: {
+    createContainer: true,
+  },
   physics: {
     default: 'arcade',
     arcade: {
       gravity: { y: 0 },
     },
   },
-  scene: [PlayScene],
+  scene: [LoginScene, SignupScene, PlayScene],
 };
 
 window.game = new Phaser.Game(config);

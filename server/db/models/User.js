@@ -40,7 +40,13 @@ const User = db.define('user', {
       notEmpty: true,
     },
   },
-  height: {
+  heightFeet: {
+    type: Sequelize.INTEGER,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  heightInches: {
     type: Sequelize.INTEGER,
     validate: {
       notEmpty: true,
@@ -90,6 +96,7 @@ User.findByToken = async function (token) {
   } catch (ex) {
     const error = Error('bad token');
     error.status = 401;
+    cons;
     throw error;
   }
 };
