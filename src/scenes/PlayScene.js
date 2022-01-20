@@ -42,8 +42,18 @@ export default class PlayScene extends Phaser.Scene {
     const tileset = map.addTilesetImage('sheet', 'tiles', 70, 70, 0, 0);
     const ground = map.createLayer('track', tileset);
 
+    ground.setCollisionByProperty({ collides: true });
     // this.add.image(width * 0.5, height * 0.5, 'duck');
     this.player = new Player(this, 0, height);
+    this.physics.add.collider(ground, this.player);
+
+    //visual representation of tiles with collision
+    // const debugGraphics = this.add.graphics().setAlpha(0.75);
+    // ground.renderDebug(debugGraphics, {
+    //   tileColor: null, // Color of non-colliding tiles
+    //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+    //   faceColor: new Phaser.Display.Color(40, 39, 37, 255), // Color of colliding face edges
+    // });
 
     //sets the bounds of the world to the entire width of the provided tilemap from line 42
     this.physics.world.bounds.width = ground.width;
