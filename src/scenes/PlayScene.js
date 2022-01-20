@@ -27,13 +27,13 @@ export default class PlayScene extends Phaser.Scene {
     const { width, height } = this.scale;
 
     //Moved webcam to top of create function so that it renders behind everything else
-    this.webcam = new WebCam(
-      this.player,
-      this,
-      width / 2,
-      height / 2,
-      'webcam'
-    );
+    // this.webcam = new WebCam(
+    //   this.player,
+    //   this,
+    //   width / 2,
+    //   height / 2,
+    //   'webcam'
+    // );
 
     backClouds = this.add.tileSprite(400, 75, 13500, 150, 'back-clouds');
     frontClouds = this.add.tileSprite(400, 75, 13500, 150, 'front-clouds');
@@ -44,16 +44,16 @@ export default class PlayScene extends Phaser.Scene {
 
     ground.setCollisionByProperty({ collides: true });
     // this.add.image(width * 0.5, height * 0.5, 'duck');
-    this.player = new Player(this, 0, height);
+    this.player = new Player(this, 0, height - 70);
     this.physics.add.collider(ground, this.player);
 
     //visual representation of tiles with collision
-    // const debugGraphics = this.add.graphics().setAlpha(0.75);
-    // ground.renderDebug(debugGraphics, {
-    //   tileColor: null, // Color of non-colliding tiles
-    //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-    //   faceColor: new Phaser.Display.Color(40, 39, 37, 255), // Color of colliding face edges
-    // });
+    const debugGraphics = this.add.graphics().setAlpha(0.75);
+    ground.renderDebug(debugGraphics, {
+      tileColor: null, // Color of non-colliding tiles
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255), // Color of colliding face edges
+    });
 
     //sets the bounds of the world to the entire width of the provided tilemap from line 42
     this.physics.world.bounds.width = ground.width;
@@ -81,6 +81,6 @@ export default class PlayScene extends Phaser.Scene {
     frontClouds.tilePositionX += 0.5;
     backClouds.tilePositionX += 0.25;
     this.player.update(delta);
-    //controls.update(delta); uncomment to allow manual camera controls
+    //controls.update(delta); //uncomment to allow manual camera controls
   }
 }
