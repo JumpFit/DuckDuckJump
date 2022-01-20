@@ -26,15 +26,6 @@ export default class PlayScene extends Phaser.Scene {
   create() {
     const { width, height } = this.scale;
 
-    //Moved webcam to top of create function so that it renders behind everything else
-    // this.webcam = new WebCam(
-    //   this.player,
-    //   this,
-    //   width / 2,
-    //   height / 2,
-    //   'webcam'
-    // );
-
     backClouds = this.add.tileSprite(400, 75, 13500, 150, 'back-clouds');
     frontClouds = this.add.tileSprite(400, 75, 13500, 150, 'front-clouds');
 
@@ -44,8 +35,10 @@ export default class PlayScene extends Phaser.Scene {
 
     ground.setCollisionByProperty({ collides: true });
     // this.add.image(width * 0.5, height * 0.5, 'duck');
-    this.player = new Player(this, 0, height - 70);
-    this.physics.add.collider(ground, this.player);
+    this.player = new Player(this, 0, height - 140);
+    this.physics.add.collider(this.player, ground);
+
+    this.webcam = new WebCam(this.player, this, 0, 0, 'webcam');
 
     //visual representation of tiles with collision
     const debugGraphics = this.add.graphics().setAlpha(0.75);

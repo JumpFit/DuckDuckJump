@@ -6,6 +6,7 @@ export default class WebCam extends Phaser.GameObjects.Video {
   constructor(player, scene, x, y, key) {
     super(scene, x, y, key);
     this.player = player;
+    this.setVisible(false);
     scene.add.existing(this);
     this.init();
   }
