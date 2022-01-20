@@ -74,22 +74,29 @@ export class Player extends Actor {
       frameRate: 8,
     });
 
-    this.anims.play('idle', true);
+    this.anims.play('walk');
   }
 
   update() {
     //I assume the player camera has to be done on the scene level as commenting this out fixed the issue with the camera only going so far
     //this.scene.cameras.main.setPosition(-this.x + this.width, 0);
     this.body.setVelocityX(100);
-    const landed = this.body.touching.down || this.body.onFloor();
-
-    if (this.cursors.space.isDown) {
-      this.emit('jump');
-    } else {
-      this.emit('neutral');
+    if (this.body.blocked.right || this.body.onWorldBounds) {
+      console.log('YOURE DEAD!');
     }
+    if (this.cursors.up.isDown) {
+      this.emit('jump');
+    }
+    if (this.cursors.down.isDown) {
+      this.emit('duck');
+    }
+
+    this.cursors.down.on('up', () => {
+      this.emit('neutral');
+    });
+
     this.on('jump', () => {
-      if (landed) {
+      if (this.body.blocked.down) {
         this.anims.play('jump', true);
         this.body.setVelocityY(-330);
       }
@@ -100,7 +107,7 @@ export class Player extends Actor {
     });
 
     this.on('neutral', () => {
-      if (landed) {
+      if (this.body.blocked.down) {
         this.anims.play('run', true);
       } else {
         this.anims.play('jump', true);
