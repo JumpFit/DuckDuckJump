@@ -30,20 +30,44 @@ export default class PlayScene extends Phaser.Scene {
 
     backClouds = this.add.tileSprite(400, 75, 13500, 150, 'back-clouds');
     frontClouds = this.add.tileSprite(400, 75, 13500, 150, 'front-clouds');
-    this.score = 0;
-    this.scoreBoard = this.add.text(25, 25, `Score: ${this.score}`, {
-      backgroundColor: BACKGROUND_COLOR,
-      fontSize: 25,
-    });
-    this.scoreBoard.setScrollFactor(0);
+
+    // SCORING:
+
+    // GRAPES BOARD:
+    this.grapes = 0;
+    this.grapesBoard = this.add
+      .text(25, 25, `Grapes: ${this.grapes}`, {
+        backgroundColor: BACKGROUND_COLOR,
+        fontSize: 25,
+      })
+      .setScrollFactor(0);
+
+    // STATS BOARD:
     this.statsBoard = this.add
       .text(width - 25, 25, 'Jumps 0, Ducks: 0', {
         backgroundColor: BACKGROUND_COLOR,
         fontSize: 25,
         align: 'right',
       })
-      .setOrigin(1, 0);
-    this.statsBoard.setScrollFactor(0);
+      .setOrigin(1, 0)
+      .setScrollFactor(0);
+
+    // SCORE BOARD:
+    this.scoreBoard = this.add
+      .text(25, 50, 'Score: 0', {
+        backgroundColor: BACKGROUND_COLOR,
+        fontSize: 25,
+      })
+      .setScrollFactor(0);
+    this.score = 0;
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.score++;
+        this.scoreBoard.setText(`Score: ${this.score}`);
+      },
+      loop: true,
+    });
 
     const map = this.make.tilemap({ key: 'tilemap' });
     const tileset = map.addTilesetImage('sheet', 'tiles', 70, 70, 0, 0);
@@ -66,9 +90,8 @@ export default class PlayScene extends Phaser.Scene {
     this.player = new Player(this, 0, height - 140);
     this.physics.add.collider(this.player, ground);
     this.physics.add.overlap(this.player, this.redGrapes, (player, grape) => {
-      this.score++;
-      console.log('score', this.score);
-      this.scoreBoard.setText(`Score: ${this.score}`);
+      this.grapes++;
+      this.grapesBoard.setText(`Grapes: ${this.grapes}`);
       grape.destroy();
       generateGrape(player.x);
     });
