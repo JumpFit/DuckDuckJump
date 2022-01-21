@@ -29,21 +29,37 @@ export default class PlayScene extends Phaser.Scene {
 
     backClouds = this.add.tileSprite(400, 75, 13500, 150, 'back-clouds');
     frontClouds = this.add.tileSprite(400, 75, 13500, 150, 'front-clouds');
+    this.score = 0;
+    this.scoreBoard = this.add.text(50, 50, `Score: ${this.score}`, {
+      fontSize: 50,
+    });
 
     const map = this.make.tilemap({ key: 'tilemap' });
     const tileset = map.addTilesetImage('sheet', 'tiles', 70, 70, 0, 0);
     const ground = map.createLayer('track', tileset);
 
     this.redGrapes = this.physics.add.group();
-    this.redGrapes.create(125, height - 60, 'red-grape');
+
+    const generateGrape = (offset = 0) => {
+      this.redGrapes.create(
+        offset + Math.random() * width,
+        height - 128,
+        'red-grape'
+      );
+    };
+
+    generateGrape();
 
     ground.setCollisionByProperty({ collides: true });
     // this.add.image(width * 0.5, height * 0.5, 'duck');
     this.player = new Player(this, 0, height - 140);
     this.physics.add.collider(this.player, ground);
     this.physics.add.overlap(this.player, this.redGrapes, (player, grape) => {
-      console.log('you got the grape');
+      this.score++;
+      console.log('score', this.score);
+      this.scoreBoard.text = `Score: ${this.score}`;
       grape.destroy();
+      generateGrape(player.x);
     });
 
     // G: this needs to be back when you commit
