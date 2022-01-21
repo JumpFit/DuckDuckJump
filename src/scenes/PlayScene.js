@@ -60,30 +60,20 @@ export default class PlayScene extends Phaser.Scene {
       })
       .setScrollFactor(0);
     this.score = 0;
-    this.time.addEvent({
-      delay: 1000,
-      callback: () => {
-        this.score++;
-        this.scoreBoard.setText(`Score: ${this.score}`);
-      },
-      loop: true,
-    });
 
     const map = this.make.tilemap({ key: 'tilemap' });
     const tileset = map.addTilesetImage('sheet', 'tiles', 70, 70, 0, 0);
     const ground = map.createLayer('track', tileset);
 
-    this.redGrapes = this.physics.add.group();
+    this.redGrapes = this.physics.add.group({
+      gravityY: 300,
+    });
+
+    this.physics.add.collider(this.redGrapes, ground);
 
     const generateGrape = (offset = 0) => {
-      this.redGrapes.create(
-        offset + Math.random() * width,
-        height - 256,
-        'red-grape'
-      );
+      this.redGrapes.create(offset + Math.random() * width, 0, 'red-grape');
     };
-
-    generateGrape();
 
     ground.setCollisionByProperty({ collides: true });
     // this.add.image(width * 0.5, height * 0.5, 'duck');
@@ -93,7 +83,23 @@ export default class PlayScene extends Phaser.Scene {
       this.grapes++;
       this.grapesBoard.setText(`Grapes: ${this.grapes}`);
       grape.destroy();
-      generateGrape(player.x);
+    });
+
+    // CLOCK FUNCTIONS:
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.score++;
+        this.scoreBoard.setText(`Score: ${this.score}`);
+      },
+      loop: true,
+    });
+    this.time.addEvent({
+      delay: 5000,
+      callback: () => {
+        generateGrape(this.player.x);
+      },
+      loop: true,
     });
 
     this.updateStatsBoard = () => {
