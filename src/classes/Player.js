@@ -9,7 +9,7 @@ export class Player extends Actor {
 
     // PHYSICS
     this.body.setSize(30, 30);
-    this.body.setOffset(40, 70);
+    //this.body.setOffset(40, 70);
 
     // ANIMATION
     this.initAnimations();
@@ -81,7 +81,7 @@ export class Player extends Actor {
       this.anims.play('run', true);
     }
 
-    this.body.setVelocityX(100);
+    //this.body.setVelocityX(100);
 
     if (this.body.blocked.right || this.body.onWorldBounds) {
       console.log('YOURE DEAD!');
