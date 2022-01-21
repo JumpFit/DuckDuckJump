@@ -12,6 +12,7 @@ export default class PlayScene extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image('red-grape', 'assets/collectibles/red-grape.png');
     this.load.image('front-clouds', 'assets/front-clouds.png');
     this.load.image('back-clouds', 'assets/back-clouds.png');
     this.load.image('tiles', 'assets/sheet.png');
@@ -33,12 +34,20 @@ export default class PlayScene extends Phaser.Scene {
     const tileset = map.addTilesetImage('sheet', 'tiles', 70, 70, 0, 0);
     const ground = map.createLayer('track', tileset);
 
+    this.redGrapes = this.physics.add.group();
+    this.redGrapes.create(125, height - 60, 'red-grape');
+
     ground.setCollisionByProperty({ collides: true });
     // this.add.image(width * 0.5, height * 0.5, 'duck');
     this.player = new Player(this, 0, height - 140);
     this.physics.add.collider(this.player, ground);
+    this.physics.add.overlap(this.player, this.redGrapes, (player, grape) => {
+      console.log('you got the grape');
+      grape.destroy();
+    });
 
-    this.webcam = new WebCam(this.player, this, 0, 0, 'webcam');
+    // G: this needs to be back when you commit
+    // this.webcam = new WebCam(this.player, this, 0, 0, 'webcam');
 
     //visual representation of tiles with collision
     const debugGraphics = this.add.graphics().setAlpha(0.75);
