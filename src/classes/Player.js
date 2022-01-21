@@ -13,6 +13,28 @@ export class Player extends Actor {
 
     // ANIMATION
     this.initAnimations();
+
+    // STATS
+    this._ducks = 0;
+    this._isDucking = false;
+    this._jumps = 0;
+    this._isJumping = false;
+  }
+
+  get ducks() {
+    return this._ducks;
+  }
+  set ducks(val) {
+    this._ducks = val;
+    this.scene.updateStatsBoard();
+  }
+
+  get jumps() {
+    return this._jumps;
+  }
+  set jumps(val) {
+    this._jumps = val;
+    this.scene.updateStatsBoard();
   }
 
   initAnimations() {
@@ -92,6 +114,9 @@ export class Player extends Actor {
     if (this.cursors.down.isDown) {
       this.emit('duck');
     }
+    this.cursors.up.on('up', () => {
+      this.emit('neutral');
+    });
     this.cursors.down.on('up', () => {
       this.emit('neutral');
     });
@@ -100,14 +125,26 @@ export class Player extends Actor {
       if (this.body.blocked.down) {
         this.anims.play('jump', true);
         this.body.setVelocityY(-330);
+        if (!this._isJumping) {
+          this.jumps++;
+        }
+        this._isDucking = false;
+        this._isJumping = true;
       }
     });
 
     this.on('duck', () => {
       this.anims.play('duck', true);
+      if (!this._isDucking) {
+        this.ducks++;
+        this._isDucking = true;
+      }
     });
 
     this.on('neutral', () => {
+      this._isDucking = false;
+      this._isJumping = false;
+
       if (!this.body.blocked.down) {
         this.anims.play('jump', true);
       }

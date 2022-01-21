@@ -36,6 +36,14 @@ export default class PlayScene extends Phaser.Scene {
       fontSize: 25,
     });
     this.scoreBoard.setScrollFactor(0);
+    this.statsBoard = this.add
+      .text(width - 25, 25, 'Jumps 0, Ducks: 0', {
+        backgroundColor: BACKGROUND_COLOR,
+        fontSize: 25,
+        align: 'right',
+      })
+      .setOrigin(1, 0);
+    this.statsBoard.setScrollFactor(0);
 
     const map = this.make.tilemap({ key: 'tilemap' });
     const tileset = map.addTilesetImage('sheet', 'tiles', 70, 70, 0, 0);
@@ -64,6 +72,12 @@ export default class PlayScene extends Phaser.Scene {
       grape.destroy();
       generateGrape(player.x);
     });
+
+    this.updateStatsBoard = () => {
+      this.statsBoard.setText(
+        `Jumps: ${this.player.jumps}, Ducks: ${this.player.ducks}`
+      );
+    };
 
     this.webcam = new WebCam(this.player, this, 0, 0, 'webcam');
 
