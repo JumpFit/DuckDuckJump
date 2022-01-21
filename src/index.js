@@ -3,7 +3,7 @@ import config from './config';
 import PlayScene from './scenes/PlayScene';
 import SignupScene from './scenes/SignupScene';
 import LoginScene from './scenes/LoginScene';
-
+import EndlessScene from './scenes/EndlessScene';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -14,9 +14,10 @@ class Game extends Phaser.Game {
     this.scene.add('LoginScene', LoginScene);
     this.scene.add('SignupScene', SignupScene);
     this.scene.add('PlayScene', PlayScene);
+    this.scene.add('EndlessScene', EndlessScene);
 
     // initially loads in scene, will set as Login for now
-    this.scene.start('LoginScene');
+    this.scene.start('EndlessScene');
   }
 }
 
