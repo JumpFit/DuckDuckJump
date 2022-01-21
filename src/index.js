@@ -4,6 +4,7 @@ import PlayScene from './scenes/PlayScene';
 import SignupScene from './scenes/SignupScene';
 import LoginScene from './scenes/LoginScene';
 
+
 class Game extends Phaser.Game {
   constructor() {
     // adds config file into the game

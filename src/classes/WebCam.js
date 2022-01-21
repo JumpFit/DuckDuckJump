@@ -18,18 +18,21 @@ export default class WebCam extends Phaser.GameObjects.Video {
 
     const squat = () => {
       this.player.emit('duck');
+      this.scene.showCamError = false;
     };
 
     const jump = () => {
       this.player.emit('jump');
+      this.scene.showCamError = false;
     };
 
     const neutral = () => {
       this.player.emit('neutral');
+      this.scene.showCamError = false;
     };
 
     const error = () => {
-      // Not in frame
+      this.scene.showCamError = true;
     };
 
     await new Promise((resolve) => {
