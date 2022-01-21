@@ -27,8 +27,8 @@ export default class EndlessScene extends Phaser.Scene {
     frontClouds = this.add.tileSprite(400, 75, 800, 150, 'front-clouds');
     this.player = new Player(
       this,
-      gameOptions.playerStartPosition,
-      height / 2,
+      gameOptions.playerStartPosition[0],
+      gameOptions.playerStartPosition[1],
       'duck'
     );
     //this.player.setGravityY(gameOptions.playerGravity);
@@ -75,13 +75,14 @@ export default class EndlessScene extends Phaser.Scene {
       );
     };
 
-    //generate starting platform
+    //generate starting platforms
     this.addPlatform(width, width / 2);
 
     //create collision between platforms and player
     this.physics.add.collider(this.player, this.platformGroup);
   }
   update(time, delta) {
+    console.log(this.player.y);
     const { width, height } = this.scale;
 
     frontClouds.tilePositionX += 0.5;
@@ -91,7 +92,7 @@ export default class EndlessScene extends Phaser.Scene {
     if (this.player.y > height) {
       this.scene.start('EndlessScene');
     }
-    this.player.x = gameOptions.playerStartPosition;
+    this.player.x = gameOptions.playerStartPosition[0];
 
     // recycling platforms
     let minDistance = width;
@@ -115,5 +116,6 @@ export default class EndlessScene extends Phaser.Scene {
         game.config.width + nextPlatformWidth / 2
       );
     }
+    this.player.update(delta);
   }
 }
