@@ -8,7 +8,6 @@ export class Player extends Actor {
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
     // PHYSICS
-    // For the future, use these to make adjustmeents as needed:
     this.body.setSize(30, 30);
     this.body.setOffset(40, 70);
 
@@ -78,9 +77,12 @@ export class Player extends Actor {
   }
 
   update() {
-    //I assume the player camera has to be done on the scene level as commenting this out fixed the issue with the camera only going so far
-    //this.scene.cameras.main.setPosition(-this.x + this.width, 0);
+    if (this.body.blocked.down) {
+      this.anims.play('run', true);
+    }
+
     this.body.setVelocityX(100);
+
     if (this.body.blocked.right || this.body.onWorldBounds) {
       console.log('YOURE DEAD!');
     }
@@ -90,7 +92,6 @@ export class Player extends Actor {
     if (this.cursors.down.isDown) {
       this.emit('duck');
     }
-
     this.cursors.down.on('up', () => {
       this.emit('neutral');
     });
@@ -107,9 +108,7 @@ export class Player extends Actor {
     });
 
     this.on('neutral', () => {
-      if (this.body.blocked.down) {
-        this.anims.play('run', true);
-      } else {
+      if (!this.body.blocked.down) {
         this.anims.play('jump', true);
       }
     });
