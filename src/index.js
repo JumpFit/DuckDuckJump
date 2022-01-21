@@ -1,24 +1,24 @@
 import * as Phaser from 'phaser';
+import config from './config';
 import PlayScene from './scenes/PlayScene';
 import SignupScene from './scenes/SignupScene';
 import LoginScene from './scenes/LoginScene';
 
-const config = {
-  type: Phaser.AUTO,
-  width: 800,
-  height: 600,
-  parent: 'game',
-  backgroundColor: '#5DACD8',
-  dom: {
-    createContainer: true,
-  },
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: { y: 0 },
-    },
-  },
-  scene: [LoginScene, SignupScene, PlayScene],
-};
+class Game extends Phaser.Game {
+  constructor() {
+    // adds config file into the game
+    super(config);
 
-window.game = new Phaser.Game(config);
+    // adds scenes into the game
+    this.scene.add('LoginScene', LoginScene);
+    this.scene.add('SignupScene', SignupScene);
+    this.scene.add('PlayScene', PlayScene);
+
+    // initially loads in scene, will set as Login for now
+    this.scene.start('LoginScene');
+  }
+}
+
+window.onload = function () {
+  window.game = new Game();
+};
