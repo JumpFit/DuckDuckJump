@@ -1,7 +1,7 @@
-import * as phaser from 'phaser';
+import * as Phaser from 'phaser';
 import axios from 'axios';
 
-export default class SignupScene extends phaser.Scene {
+export default class SignupScene extends Phaser.Scene {
   constructor() {
     super('SignupScene');
     this.state = {};
