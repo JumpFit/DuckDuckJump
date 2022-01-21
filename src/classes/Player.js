@@ -108,9 +108,9 @@ export class Player extends Actor {
     if (this.body.blocked.right || this.body.onWorldBounds) {
       console.log('YOURE DEAD!');
     }
-    if (this.cursors.up.isDown) {
+    this.cursors.up.on('down', () => {
       this.emit('jump');
-    }
+    });
     if (this.cursors.down.isDown) {
       this.emit('duck');
     }
