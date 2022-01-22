@@ -11,6 +11,7 @@ router.get('/', async (req, res, next) => {
     res.json(
       await Game.findAll({
         include: [{ model: User, attributes: ['username'] }],
+        order: [['score', 'DESC']],
       })
     );
   } catch (error) {
