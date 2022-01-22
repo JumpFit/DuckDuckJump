@@ -8,7 +8,11 @@ module.exports = router;
 // GET /api/games
 router.get('/', async (req, res, next) => {
   try {
-    res.json(await Game.findAll({ include: [User] }));
+    res.json(
+      await Game.findAll({
+        include: [{ model: User, attributes: ['username'] }],
+      })
+    );
   } catch (error) {
     next(error);
   }
@@ -17,7 +21,9 @@ router.get('/', async (req, res, next) => {
 // GET /api/games/:gameId
 router.get('/:gameId', async (req, res, next) => {
   try {
-    const game = await Game.findByPk(req.params.gameId, { include: [User] });
+    const game = await Game.findByPk(req.params.gameId, {
+      include: [{ model: User, attributes: ['username'] }],
+    });
     if (!game) {
       const error = new Error('No game found');
       error.status = 404;
