@@ -9,18 +9,18 @@ export default class MainMenuScene extends Phaser.Scene {
   preload() {
     this.load.image(
       'backgroundImage',
-      'assets/backgrounds/backgroundImage1.png'
+      'assets/backgrounds/backgroundImage.png'
     );
-    this.load.image(
-      'backgroundImage2',
-      'assets/backgrounds/backgroundImage2.gif'
-    );
+    this.load.image('title', 'assets/mainmenu/title.png');
+    this.load.image('ducks', 'assets/mainmenu/ducksinthemiddle.png');
   }
 
   create() {
     const scene = this;
 
-    scene.add.image(0, 0, 'backgroundImage1').setOrigin(0);
+    scene.add.image(0, 0, 'backgroundImage').setOrigin(0);
+    scene.add.image(-200, 0, 'title').setOrigin(0);
+    scene.add.image(-200, 0, 'ducks').setOrigin(0);
   }
 
   update() {}
