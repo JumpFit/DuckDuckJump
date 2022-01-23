@@ -108,3 +108,6 @@ dist
 
 # Bundle.js file
 bundle.js
+
+# Files navigating from finder
+.DS_Store
