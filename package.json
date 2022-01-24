@@ -23,6 +23,7 @@
   "homepage": "https://github.com/JumpFit/DuckDuckJump#readme",
   "dependencies": {
     "@babel/runtime": "^7.16.7",
+    "@mediapipe/pose": "^0.4.1633558788",
     "@tensorflow-models/pose-detection": "^0.0.6",
     "@tensorflow/tfjs-backend-webgl": "^3.13.0",
     "@tensorflow/tfjs-converter": "^3.13.0",
