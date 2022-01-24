@@ -22,7 +22,7 @@ export default class SignupScene extends Phaser.Scene {
     //signup form
     const scene = this;
 
-    scene.inputElement = scene.add.dom(400, 300).createFromCache('signupform');
+    scene.inputElement = scene.add.dom(800, 450).createFromCache('signupform');
 
     scene.inputElement.addListener('click');
     scene.inputElement.on('click', async function (event) {

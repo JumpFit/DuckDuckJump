@@ -17,7 +17,7 @@ export default class LoginScene extends Phaser.Scene {
     // login form
     const scene = this;
 
-    scene.inputElement = scene.add.dom(400, 300).createFromCache('loginform');
+    scene.inputElement = scene.add.dom(800, 450).createFromCache('loginform');
 
     scene.inputElement.addListener('click');
     scene.inputElement.on('click', async function (event) {
