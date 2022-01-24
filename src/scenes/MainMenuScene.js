@@ -29,11 +29,13 @@ export default class MainMenuScene extends Phaser.Scene {
       .setOrigin(0)
       .setDepth(0)
       .setDisplaySize(width, height);
+
     scene.add
       .image(0, 0, 'title')
       .setOrigin(0)
       .setDepth(1)
       .setDisplaySize(width, height);
+
     scene.add
       .image(0, 0, 'ducks')
       .setOrigin(0)
@@ -41,40 +43,44 @@ export default class MainMenuScene extends Phaser.Scene {
       .setDisplaySize(width, height);
 
     const loginButton = scene.add
-      .image(0, 55, 'login')
+      .image(width * 0.025, height * 0.05, 'login')
       .setOrigin(0)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     loginButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       scene.scene.start('LoginScene');
     });
 
     const signupButton = scene.add
-      .image(width, 60, 'signup')
+      .image(width * 0.971, height * 0.055, 'signup')
       .setOrigin(1, 0)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     signupButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       scene.scene.start('SignupScene');
     });
 
     const howToPlayButton = scene.add
-      .image(0, height * 0.95, 'howtoplay')
+      .image(width * 0.025, height * 0.945, 'howtoplay')
       .setOrigin(0, 1)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     howToPlayButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       scene.scene.start('PlayScene');
     });
 
     const leaderboardButton = scene.add
-      .image(width, height * 0.95, 'leaderboard')
+      .image(width * 0.98, height * 0.94, 'leaderboard')
       .setOrigin(1, 1)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     leaderboardButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       // links to GameOverScene for testing, will change to leaderboardsceen later
@@ -82,10 +88,10 @@ export default class MainMenuScene extends Phaser.Scene {
     });
 
     const startGameButton = scene.add
-      .image(width / 2, height * 0.89, 'startgame')
-      // .setOrigin()
+      .image(width * 0.48, height * 0.875, 'startgame')
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     startGameButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       scene.scene.start('EndlessScene');
