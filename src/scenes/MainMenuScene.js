@@ -62,7 +62,11 @@ export default class MainMenuScene extends Phaser.Scene {
       .setOrigin(0)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
-    leaderboardButton.on('pointerdown', function () {});
+    leaderboardButton.on('pointerdown', function () {
+      scene.scene.stop('MainMenuScene');
+      // links to GameOverScene for testing, will change to leaderboardsceen later
+      scene.scene.start('GameOverScene');
+    });
 
     const startGameButton = scene.add
       .image(538, 720, 'startgame')
