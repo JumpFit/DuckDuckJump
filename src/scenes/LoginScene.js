@@ -10,6 +10,10 @@ export default class LoginScene extends Phaser.Scene {
   init(data) {}
 
   preload() {
+    this.load.image(
+      'backgroundImage',
+      'assets/backgrounds/backgroundImage.png'
+    );
     this.load.html('loginform', 'assets/text/loginform.html');
   }
 
@@ -17,7 +21,12 @@ export default class LoginScene extends Phaser.Scene {
     // login form
     const scene = this;
 
-    scene.inputElement = scene.add.dom(800, 450).createFromCache('loginform');
+    scene.add.image(0, 0, 'backgroundImage').setOrigin(0).setDepth(0);
+
+    scene.inputElement = scene.add
+      .dom(800, 450)
+      .createFromCache('loginform')
+      .setDepth(1);
 
     scene.inputElement.addListener('click');
     scene.inputElement.on('click', async function (event) {
@@ -47,7 +56,7 @@ export default class LoginScene extends Phaser.Scene {
 
         if (loggedinUser !== null) {
           scene.scene.stop('LoginScene');
-          scene.scene.launch('PlayScene');
+          scene.scene.launch('MainMenuScene');
         }
       }
 

@@ -15,6 +15,10 @@ export default class SignupScene extends Phaser.Scene {
   */
 
   preload() {
+    this.load.image(
+      'backgroundImage',
+      'assets/backgrounds/backgroundImage.png'
+    );
     this.load.html('signupform', 'assets/text/signupform.html');
   }
 
@@ -22,7 +26,12 @@ export default class SignupScene extends Phaser.Scene {
     //signup form
     const scene = this;
 
-    scene.inputElement = scene.add.dom(800, 450).createFromCache('signupform');
+    scene.add.image(0, 0, 'backgroundImage').setOrigin(0).setDepth(0);
+
+    scene.inputElement = scene.add
+      .dom(800, 450)
+      .createFromCache('signupform')
+      .setDepth(1);
 
     scene.inputElement.addListener('click');
     scene.inputElement.on('click', async function (event) {
