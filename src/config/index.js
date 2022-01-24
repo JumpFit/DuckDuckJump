@@ -2,8 +2,8 @@ const { BACKGROUND_COLOR } = require('../constants');
 
 export default {
   type: Phaser.AUTO,
-  width: 1600,
-  height: 900,
+  width: 1200,
+  height: 600,
   parent: 'game',
   backgroundColor: BACKGROUND_COLOR,
   dom: {

@@ -124,7 +124,7 @@ export class Player extends Actor {
     this.on('jump', () => {
       if (this.body.blocked.down) {
         this.anims.play('jump', true);
-        this.body.setVelocityY(-330);
+        this.body.setVelocityY(-400);
         if (!this._isJumping) {
           this.jumps++;
         }
