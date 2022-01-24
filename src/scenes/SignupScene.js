@@ -25,11 +25,16 @@ export default class SignupScene extends Phaser.Scene {
   create() {
     //signup form
     const scene = this;
+    const { width, height } = this.scale;
 
-    scene.add.image(0, 0, 'backgroundImage').setOrigin(0).setDepth(0);
+    scene.add
+      .image(0, 0, 'backgroundImage')
+      .setOrigin(0)
+      .setDepth(0)
+      .setDisplaySize(width, height);
 
     scene.inputElement = scene.add
-      .dom(800, 450)
+      .dom(width / 2, height / 2)
       .createFromCache('signupform')
       .setDepth(1);
 
@@ -47,17 +52,6 @@ export default class SignupScene extends Phaser.Scene {
         const heightInches =
           scene.inputElement.getChildByName('heightInches').value;
 
-        console.log(
-          username,
-          password,
-          firstName,
-          lastName,
-          birthday,
-          weight,
-          heightFeet,
-          heightInches
-        );
-
         const newUser = await axios.post('/auth/signup', {
           username,
           password,
@@ -68,8 +62,6 @@ export default class SignupScene extends Phaser.Scene {
           heightFeet,
           heightInches,
         });
-
-        console.log('NEW USER!!!!', newUser);
 
         // window.localStorage.setItem('token', newUser.data.token);
         // const token = window.localStorage.getItem('token');
