@@ -5,11 +5,11 @@ import SignupScene from './scenes/SignupScene';
 import LoginScene from './scenes/LoginScene';
 import MainMenuScene from './scenes/MainMenuScene';
 import EndlessScene from './scenes/EndlessScene';
-
+import GameOverScene from './scenes/GameOverScene';
 
 class Game extends Phaser.Game {
   constructor() {
-    // adds config file into the game
+    // loads config file into the game
     super(config);
 
     // adds scenes into the game
@@ -18,6 +18,7 @@ class Game extends Phaser.Game {
     this.scene.add('SignupScene', SignupScene);
     this.scene.add('PlayScene', PlayScene);
     this.scene.add('EndlessScene', EndlessScene);
+    this.scene.add('GameOverScene', GameOverScene);
 
     // initially loads in scene, will set as Login for now
     this.scene.start('MainMenuScene');

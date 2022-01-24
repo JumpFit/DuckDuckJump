@@ -71,9 +71,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .setInteractive({ userHandCursor: true });
     startGameButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
-
-      // starts PlayScene but will need to change later to main game
-      scene.scene.start('PlayScene');
+      scene.scene.start('EndlessScene');
     });
   }
 
