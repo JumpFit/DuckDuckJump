@@ -162,7 +162,12 @@ export default class EndlessScene extends Phaser.Scene {
     // game over
     if (this.player.y > height) {
       this.scene.stop('EndlessScene');
-      this.scene.start('GameOverScene');
+      this.scene.start('GameOverScene', {
+        score: this.score,
+        jumps: this.player.jumps,
+        ducks: this.player.ducks,
+        grapes: this.grapes,
+      });
     }
     this.player.x = gameOptions.playerStartPosition[0];
 
