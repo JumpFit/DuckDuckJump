@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Camera from '../pose-detection/Camera';
-import Detector from '../pose-detection/detector';
+import Detector from '../pose-detection/Detector';
 
 export default class WebCam extends Phaser.GameObjects.Video {
   constructor(player, scene, x, y, key) {
