@@ -20,11 +20,16 @@ export default class LoginScene extends Phaser.Scene {
   create() {
     // login form
     const scene = this;
+    const { width, height } = this.scale;
 
-    scene.add.image(0, 0, 'backgroundImage').setOrigin(0).setDepth(0);
+    scene.add
+      .image(0, 0, 'backgroundImage')
+      .setOrigin(0)
+      .setDepth(0)
+      .setDisplaySize(width, height);
 
     scene.inputElement = scene.add
-      .dom(800, 450)
+      .dom(width / 2, height / 2)
       .createFromCache('loginform')
       .setDepth(1);
 
@@ -40,8 +45,6 @@ export default class LoginScene extends Phaser.Scene {
           username,
           password,
         });
-
-        console.log('LOGIN USER!!!!', loggedinUser);
 
         // // window.localStorage.setItem('token', newUser.data.token);
         // // const token = window.localStorage.getItem('token');
