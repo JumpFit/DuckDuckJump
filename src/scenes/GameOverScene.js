@@ -34,6 +34,7 @@ export default class GameOverScene extends Phaser.Scene {
       .setOrigin(0, 1)
       .setDepth(1)
       .setInteractive({ userHandCursor: true });
+
     mainmenuButton.on('pointerdown', function () {
       scene.scene.stop('GameOverScene');
       scene.scene.start('MainMenuScene');
@@ -44,6 +45,7 @@ export default class GameOverScene extends Phaser.Scene {
       .setOrigin(1, 1)
       .setDepth(1)
       .setInteractive({ userHandCursor: true });
+
     playagainButton.on('pointerdown', function () {
       scene.scene.stop('GameOverScene');
       scene.scene.start('EndlessScene');

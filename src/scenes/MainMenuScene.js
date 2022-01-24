@@ -29,11 +29,13 @@ export default class MainMenuScene extends Phaser.Scene {
       .setOrigin(0)
       .setDepth(0)
       .setDisplaySize(width, height);
+
     scene.add
       .image(0, 0, 'title')
       .setOrigin(0)
       .setDepth(1)
       .setDisplaySize(width, height);
+
     scene.add
       .image(0, 0, 'ducks')
       .setOrigin(0)
@@ -45,6 +47,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .setOrigin(0)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     loginButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       scene.scene.start('LoginScene');
@@ -55,6 +58,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .setOrigin(1, 0)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     signupButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       scene.scene.start('SignupScene');
@@ -65,6 +69,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .setOrigin(0, 1)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     howToPlayButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       scene.scene.start('PlayScene');
@@ -75,6 +80,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .setOrigin(1, 1)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     leaderboardButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       // links to GameOverScene for testing, will change to leaderboardsceen later
@@ -85,6 +91,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .image(width * 0.48, height * 0.875, 'startgame')
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
+
     startGameButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
       scene.scene.start('EndlessScene');
