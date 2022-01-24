@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 import { gameOptions, BACKGROUND_COLOR } from '../constants';
 import { Player } from '../classes/Player';
-import WebCam from '../classes/Webcam';
+import WebCam from '../classes/WebCam';
 
 let frontClouds;
 let backClouds;
