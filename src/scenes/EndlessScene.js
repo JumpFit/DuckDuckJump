@@ -83,12 +83,14 @@ export default class EndlessScene extends Phaser.Scene {
     //main logic for generating platforms
     this.addPlatform = (platformWidth, posX, posY) => {
       let platform;
+      //use a platform from the platform pool if there is one
       if (this.platformPool.getLength()) {
         platform = this.platformPool.getFirst();
         platform.x = posX;
         platform.active = true;
         platform.visible = true;
         this.platformPool.remove(platform);
+        //create a platform and add it to the pool using these values if none are available
       } else {
         platform = this.physics.add.sprite(posX, posY, 'platform');
         platform.setImmovable(true);
@@ -100,6 +102,7 @@ export default class EndlessScene extends Phaser.Scene {
         );
         this.platformGroup.add(platform);
       }
+      //distance between platform spawns
       platform.displayWidth = platformWidth;
       this.nextPlatformDistance = Phaser.Math.Between(
         gameOptions.spawnRange[0],
@@ -107,7 +110,7 @@ export default class EndlessScene extends Phaser.Scene {
       );
     };
 
-    //generate starting platforms
+    //generate starting platform
     this.addPlatform(
       width,
       width / 2,
@@ -160,38 +163,49 @@ export default class EndlessScene extends Phaser.Scene {
     let minDistance = width;
     let rightmostPlatformHeight = 0;
     this.platformGroup.getChildren().forEach(function (platform) {
+      //platform position on screen
       let platformDistance = width - platform.x - platform.displayWidth / 2;
+      //when platform appears on screen
       if (platformDistance < minDistance) {
+        //track its progress
         minDistance = platformDistance;
+        //record its height
         rightmostPlatformHeight = platform.y;
       }
+      //if platform goes off screen
       if (platform.x < -platform.displayWidth / 2) {
+        //get rid of the platform
         this.platformGroup.killAndHide(platform);
         this.platformGroup.remove(platform);
       }
     }, this);
 
     // adding new platforms
+    //if latest platform is spawnRange pixels away from right side
     if (minDistance > this.nextPlatformDistance) {
+      //create a platform of a random width between the size ranges
       let nextPlatformWidth = Phaser.Math.Between(
         gameOptions.platformSizeRange[0],
         gameOptions.platformSizeRange[1]
       );
+      //give it a height scaled by a value between the height range ratios
       let platformRandomHeight =
         gameOptions.platformHeightScale *
         Phaser.Math.Between(
           gameOptions.platformHeightRange[0],
           gameOptions.platformHeightRange[1]
         );
-      console.log(rightmostPlatformHeight);
+      //Keep track of possible gap between latest and next platform
       let nextPlatformGap = rightmostPlatformHeight + platformRandomHeight;
       let minPlatformHeight = height * gameOptions.platformVerticalLimit[0];
       let maxPlatformHeight = height * gameOptions.platformVerticalLimit[1];
+      //Force next platform's height gap to be between the two given values to keep it fair
       let nextPlatformHeight = Phaser.Math.Clamp(
         nextPlatformGap,
         minPlatformHeight,
         maxPlatformHeight
       );
+      //add the new platform to the screen
       this.addPlatform(
         nextPlatformWidth,
         width + nextPlatformWidth / 2,

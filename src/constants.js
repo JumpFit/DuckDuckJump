@@ -1,15 +1,13 @@
 export const BACKGROUND_COLOR = '#5DACD8';
 
-//Several self explanatory values to use inside of EndlessScene
+//Several values to use inside of EndlessScene
 export const gameOptions = {
-  platformSpeedRange: [300, 400],
-  spawnRange: [100, 350],
-  platformSizeRange: [450, 600],
-  platformHeightRange: [-10, 10],
-  platformHeightScale: 10,
-  platformVerticalLimit: [0.4, 0.8],
-  playerGravity: 400,
-  jumpForce: 400,
-  playerStartPosition: [50, 415],
-  jumps: 2,
+  platformSpeedRange: [300, 400], //pixels per second
+  spawnRange: [50, 100], //pixels from right of screen latest platform is before next spawns
+  platformSizeRange: [450, 600], //width in pixels
+  platformHeightRange: [-10, 20], //height range between latest and next platforms
+  platformHeightScale: 50, //a scale multiplied by the height range
+  platformVerticalLimit: [0.6, 0.9], //min and max height of platforms in a screen ratio
+  playerGravity: 400, //gravity value to act on player
+  playerStartPosition: [100, 450], //x and y starting position for player
 };
