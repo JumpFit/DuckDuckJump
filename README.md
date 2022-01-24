@@ -3,6 +3,8 @@ Gamified fitness app 🦆
 
 A workout game you can control hands free that combines both fitness and your inner gamer without needing to buy an expensive console
 
+Deployed here: https://duckduckjump.herokuapp.com/
+
 # MVP
 
 **Work out Platformer / Side Scroller Game with Machine Learning**
