@@ -15,8 +15,8 @@ export default class GameOverScene extends Phaser.Scene {
       'gameoverBackground',
       'assets/gameover/gameoverBackground.png'
     );
-    this.load.image('mainmenuButton', 'assets/gameover/mainmenuButton.png');
-    this.load.image('playagainButton', 'assets/gameover/playagainButton.png');
+    this.load.image('mainmenuButton', 'assets/gameover/mainmenubutton.png');
+    this.load.image('playagainButton', 'assets/gameover/playagainbutton.png');
   }
 
   create() {
