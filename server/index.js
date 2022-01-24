@@ -13,6 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 // routes for auth
 app.use('/auth', require('./auth'));
 
+// api routes
+app.use('/api', require('./api'));
+
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
