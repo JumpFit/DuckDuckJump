@@ -30,7 +30,7 @@ export default class GameOverScene extends Phaser.Scene {
       .setDisplaySize(width, height);
 
     const mainmenuButton = scene.add
-      .image(width * 0.01, height * 0.95, 'mainmenuButton')
+      .image(width * 0.028, height * 0.93, 'mainmenuButton')
       .setOrigin(0, 1)
       .setDepth(1)
       .setInteractive({ userHandCursor: true });
@@ -40,7 +40,7 @@ export default class GameOverScene extends Phaser.Scene {
     });
 
     const playagainButton = scene.add
-      .image(width * 0.99, height * 0.98, 'playagainButton')
+      .image(width * 0.99, height * 0.95, 'playagainButton')
       .setOrigin(1, 1)
       .setDepth(1)
       .setInteractive({ userHandCursor: true });

@@ -61,7 +61,7 @@ export default class MainMenuScene extends Phaser.Scene {
     });
 
     const howToPlayButton = scene.add
-      .image(width * 0.025, height * 0.95, 'howtoplay')
+      .image(width * 0.025, height * 0.945, 'howtoplay')
       .setOrigin(0, 1)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
@@ -71,7 +71,7 @@ export default class MainMenuScene extends Phaser.Scene {
     });
 
     const leaderboardButton = scene.add
-      .image(width * 0.98, height * 0.945, 'leaderboard')
+      .image(width * 0.98, height * 0.94, 'leaderboard')
       .setOrigin(1, 1)
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
@@ -82,7 +82,7 @@ export default class MainMenuScene extends Phaser.Scene {
     });
 
     const startGameButton = scene.add
-      .image(width * 0.48, height * 0.89, 'startgame')
+      .image(width * 0.48, height * 0.875, 'startgame')
       .setDepth(2)
       .setInteractive({ userHandCursor: true });
     startGameButton.on('pointerdown', function () {
