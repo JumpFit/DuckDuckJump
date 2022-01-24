@@ -23,8 +23,14 @@ export default class EndlessScene extends Phaser.Scene {
   }
   create() {
     const { width, height } = this.scale;
-    backClouds = this.add.tileSprite(400, 75, 1600, 150, 'back-clouds');
-    frontClouds = this.add.tileSprite(400, 75, 1600, 150, 'front-clouds');
+    backClouds = this.add.tileSprite(width / 2, 75, width, 150, 'back-clouds');
+    frontClouds = this.add.tileSprite(
+      width / 2,
+      75,
+      width,
+      150,
+      'front-clouds'
+    );
 
     // SCORING:
 

@@ -17,13 +17,18 @@ export default class GameOverScene extends Phaser.Scene {
 
   create() {
     const scene = this;
+    const { width, height } = this.scale;
 
-    scene.add.image(0, 0, 'gameoverBackground').setOrigin(0).setDepth(0);
+    scene.add
+      .image(0, 0, 'gameoverBackground')
+      .setOrigin(0)
+      .setDepth(0)
+      .setDisplaySize(width, height);
 
     const mainmenuButton = scene.add
-      .image(50, 790, 'mainmenuButton')
-      .setOrigin(0)
-      .setDepth(2)
+      .image(width * 0.01, height * 0.95, 'mainmenuButton')
+      .setOrigin(0, 1)
+      .setDepth(1)
       .setInteractive({ userHandCursor: true });
     mainmenuButton.on('pointerdown', function () {
       scene.scene.stop('GameOverScene');
@@ -31,8 +36,8 @@ export default class GameOverScene extends Phaser.Scene {
     });
 
     const playagainButton = scene.add
-      .image(1130, 730, 'playagainButton')
-      .setOrigin(0)
+      .image(width * 0.99, height * 0.98, 'playagainButton')
+      .setOrigin(1, 1)
       .setDepth(1)
       .setInteractive({ userHandCursor: true });
     playagainButton.on('pointerdown', function () {
