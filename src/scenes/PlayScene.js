@@ -1,11 +1,7 @@
 import * as Phaser from 'phaser';
 import { Player } from '../classes/Player';
 import WebCam from '../classes/WebCam';
-import { BACKGROUND_COLOR } from '../constants';
-
-let frontClouds;
-let backClouds;
-let controls;
+import { BACKGROUND_COLOR } from '../utils/constants';
 
 export default class PlayScene extends Phaser.Scene {
   constructor() {
@@ -28,8 +24,8 @@ export default class PlayScene extends Phaser.Scene {
   create() {
     const { width, height } = this.scale;
 
-    backClouds = this.add.tileSprite(400, 75, 13500, 150, 'back-clouds');
-    frontClouds = this.add.tileSprite(400, 75, 13500, 150, 'front-clouds');
+    this.backClouds = this.add.tileSprite(400, 75, 13500, 150, 'back-clouds');
+    this.frontClouds = this.add.tileSprite(400, 75, 13500, 150, 'front-clouds');
 
     // SCORING:
 
@@ -63,7 +59,7 @@ export default class PlayScene extends Phaser.Scene {
 
     const map = this.make.tilemap({ key: 'tilemap' });
     const tileset = map.addTilesetImage('sheet', 'tiles', 70, 70, 0, 0);
-    const ground = map.createLayer('track', tileset);
+    const ground = map.createLayer('track', tileset, 0, 0);
 
     this.redGrapes = this.physics.add.group({
       gravityY: 300,
@@ -75,10 +71,10 @@ export default class PlayScene extends Phaser.Scene {
       this.redGrapes.create(offset + Math.random() * width, 0, 'red-grape');
     };
 
-    ground.setCollisionByProperty({ collides: true });
-    // this.add.image(width * 0.5, height * 0.5, 'duck');
+    ground.setCollisionByExclusion(-1, true);
     this.player = new Player(this, 0, 450);
-    this.player.setVelocityX(300);
+    this.player.setVelocityX(200);
+    this.player.setOffset(0, 55);
     this.physics.add.collider(this.player, ground, null, null, this);
     this.physics.add.overlap(this.player, this.redGrapes, (player, grape) => {
       this.grapes++;
@@ -152,8 +148,8 @@ export default class PlayScene extends Phaser.Scene {
         this.camError.setVisible(false);
       }
     }
-    frontClouds.tilePositionX += 0.5;
-    backClouds.tilePositionX += 0.25;
+    this.frontClouds.tilePositionX += 0.5;
+    this.backClouds.tilePositionX += 0.25;
     this.player.update(delta);
   }
 }

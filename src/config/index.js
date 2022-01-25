@@ -1,9 +1,7 @@
-const { BACKGROUND_COLOR } = require('../constants');
+const { BACKGROUND_COLOR } = require('../utils/constants');
 
 export default {
   type: Phaser.AUTO,
-  // width: 1200,
-  // height: 600,
   scale: {
     mode: Phaser.Scale.RESIZE,
     parent: 'game',

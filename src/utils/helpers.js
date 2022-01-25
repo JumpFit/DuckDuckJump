@@ -1,4 +1,5 @@
 //MANUAL CAMERA CONTROL CODE (Using Arrow Keys)
+// Create Controls Variable >>> let controls;
 //Add this code to a create() function
 // const cursors = this.input.keyboard.createCursorKeys();
 // controls = new Phaser.Cameras.Controls.FixedKeyControl({
