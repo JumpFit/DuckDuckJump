@@ -166,7 +166,7 @@ export default class Detector {
 
   endDetection() {
     if (this.rafId) {
-      cancelAnimationFrame(this.rafid);
+      cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
   }
