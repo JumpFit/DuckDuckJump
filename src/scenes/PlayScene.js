@@ -1,6 +1,5 @@
 import * as Phaser from 'phaser';
 import { Player } from '../classes/Player';
-import WebCam from '../classes/WebCam';
 import { BACKGROUND_COLOR } from '../utils/constants';
 
 export default class PlayScene extends Phaser.Scene {
@@ -19,6 +18,10 @@ export default class PlayScene extends Phaser.Scene {
       'assets/characters/duck.png',
       'assets/characters/duck.json'
     );
+  }
+
+  init({ webcam }) {
+    this.webcam = webcam;
   }
 
   create() {
@@ -73,6 +76,7 @@ export default class PlayScene extends Phaser.Scene {
 
     ground.setCollisionByExclusion(-1, true);
     this.player = new Player(this, 0, 450);
+    this.webcam.setPlayer(this.player);
     this.player.setVelocityX(200);
     this.player.setOffset(0, 55);
     this.physics.add.collider(this.player, ground, null, null, this);
@@ -105,8 +109,6 @@ export default class PlayScene extends Phaser.Scene {
       );
     };
 
-    this.webcam = new WebCam(this.player, this, 0, 0, 'webcam');
-
     //sets the bounds of the world to the entire width of the provided tilemap
     this.physics.world.bounds.width = ground.width;
 
@@ -135,8 +137,9 @@ export default class PlayScene extends Phaser.Scene {
 
   update(time, delta) {
     if (this.player.x > 7000) {
+      this.webcam.endDetection();
       this.scene.stop('PlayScene');
-      this.scene.start('MainMenuScene');
+      this.scene.start('MainMenuScene', { webcam: this.webcam });
     }
 
     if (this.showCamError) {
