@@ -24,7 +24,6 @@ class Game extends Phaser.Game {
 
     // initially loads in scene, will set as Login for now
     this.scene.start('MainMenuScene');
-    // this.scene.start('WebcamSetup');
   }
 }
 

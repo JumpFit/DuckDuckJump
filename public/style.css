@@ -1,0 +1,13 @@
+body {
+  font-family: 'HortaRegular';
+}
+
+#input-select {
+  font-family: 'HortaRegular';
+  font-size: large;
+  width: 25em;
+}
+
+label {
+  font-family: 'HortaRegular';
+}

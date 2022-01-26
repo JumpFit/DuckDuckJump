@@ -3,13 +3,19 @@ import Camera from '../pose-detection/Camera';
 import Detector from '../pose-detection/Detector';
 
 export default class WebCam extends Phaser.GameObjects.Video {
-  constructor(player, scene, x, y, key, camera, visible) {
+  constructor(
+    player,
+    scene,
+    x,
+    y,
+    key,
+    options = { camera: null, visible: false }
+  ) {
     super(scene, x, y, key);
-    this.camera = camera;
+    this.camera = options.camera;
     this.player = player;
-    this.setVisible(!!visible);
-    scene.add.existing(this);
-
+    this.setVisible(!!options.visible);
+    scene.add.existing(this).setDepth(1);
     this.error = this.error.bind(this);
     this.squat = this.squat.bind(this);
     this.jump = this.jump.bind(this);
@@ -19,6 +25,17 @@ export default class WebCam extends Phaser.GameObjects.Video {
   }
   async init() {
     const camera = this.camera || new Camera();
+
+    this.boundary = this.scene.add
+      .rectangle(
+        this.scene.scale.width * 0.5,
+        this.scene.scale.height * 0.5,
+        this.camera.videoOptions.width,
+        this.camera.videoOptions.height,
+        0x000000
+      )
+      .setStrokeStyle(3, 0xffffff);
+
     this.detector = new Detector();
     const [stream] = await Promise.all([
       camera.getStream(),
@@ -38,7 +55,7 @@ export default class WebCam extends Phaser.GameObjects.Video {
     this.video.srcObject = stream;
 
     await this.playVideo();
-    await this.detectPoses();
+    this.detectPoses();
   }
 
   async playVideo() {
@@ -62,20 +79,30 @@ export default class WebCam extends Phaser.GameObjects.Video {
 
   squat() {
     this.player.emit('duck');
-    this.scene.showCamError = false;
+    if (this.player.scene) this.player.scene.showCamError = false;
   }
 
   jump() {
     this.player.emit('jump');
-    this.scene.showCamError = false;
+    if (this.player.scene) this.player.scene.showCamError = false;
   }
 
   neutral() {
     this.player.emit('neutral');
-    this.scene.showCamError = false;
+    if (this.player.scene) this.player.scene.showCamError = false;
   }
 
   error() {
-    this.scene.showCamError = true;
+    if (this.player.scene) this.player.scene.showCamError = true;
+  }
+
+  endDetection() {
+    this.detector.endDetection();
+  }
+
+  setPlayer(player) {
+    this.endDetection();
+    this.player = player;
+    this.detectPoses();
   }
 }

@@ -129,7 +129,7 @@ export class Player extends Actor {
   }
 
   update() {
-    if (this.body.blocked.down) {
+    if (this.body.blocked.down && !this._isDucking) {
       this.anims.play('run', true);
     }
 

@@ -8,6 +8,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   init(data) {
     console.log(data);
+    this.webcam = data.webcam;
   }
 
   preload() {
@@ -36,7 +37,8 @@ export default class GameOverScene extends Phaser.Scene {
       .setInteractive({ userHandCursor: true });
     mainmenuButton.on('pointerdown', function () {
       scene.scene.stop('GameOverScene');
-      scene.scene.start('MainMenuScene');
+      scene.scene.stop('WebcamSetup');
+      scene.scene.start('MainMenuScene', { webcam: scene.webcam });
     });
 
     const playagainButton = scene.add
@@ -46,7 +48,7 @@ export default class GameOverScene extends Phaser.Scene {
       .setInteractive({ userHandCursor: true });
     playagainButton.on('pointerdown', function () {
       scene.scene.stop('GameOverScene');
-      scene.scene.start('EndlessScene');
+      scene.webcam.scene.playAgain();
     });
   }
 
