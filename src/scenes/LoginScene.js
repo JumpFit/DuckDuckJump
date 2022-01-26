@@ -86,13 +86,16 @@ export default class LoginScene extends Phaser.Scene {
         // once user is found, pass it through to Main Menu
         if (loggedinUser !== null) {
           scene.scene.stop('LoginScene');
-          scene.scene.launch('MainMenuScene', { loggedinUser: loggedinUser });
+          scene.scene.launch('MainMenuScene', {
+            loggedinUser: loggedinUser,
+            webcam: this.webcam,
+          });
         }
       }
 
       if (event.target.name === 'redirectSignupButton') {
         scene.scene.stop('LoginScene');
-        scene.scene.launch('SignupScene');
+        scene.scene.launch('SignupScene', { webcam: this.webcam });
       }
     });
   }
