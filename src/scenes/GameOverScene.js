@@ -38,7 +38,6 @@ export default class GameOverScene extends Phaser.Scene {
 
     mainmenuButton.on('pointerdown', function () {
       scene.scene.stop('GameOverScene');
-      scene.scene.stop('WebcamSetup');
       scene.scene.start('MainMenuScene', { webcam: scene.webcam });
     });
 

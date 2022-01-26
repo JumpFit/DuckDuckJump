@@ -64,18 +64,27 @@ export default class WebCam extends Phaser.GameObjects.Video {
     }
     const stream = await this.camera.getStream();
     this.video.srcObject = stream;
-
-    await this.playVideo();
-    this.detectPoses();
+    try {
+      await this.playVideo();
+      this.detectPoses();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async playVideo() {
-    await new Promise((resolve) => {
-      this.video.onloadeddata = () => {
-        resolve(this.video);
-      };
-    });
-    this.play();
+    try {
+      await new Promise((resolve) => {
+        this.video.onloadeddata = () => {
+          resolve(this.video);
+        };
+      });
+      if (this.scene) {
+        this.play();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   detectPoses() {

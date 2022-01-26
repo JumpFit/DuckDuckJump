@@ -1,4 +1,5 @@
 export const BACKGROUND_COLOR = '#5DACD8';
+export const ACCENT_COLOR = '#0058FF';
 
 //Several values to use inside of EndlessScene
 export const gameOptions = {
