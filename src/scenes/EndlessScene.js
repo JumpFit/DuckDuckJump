@@ -162,14 +162,24 @@ export default class EndlessScene extends Phaser.Scene {
     if (this.player.y > height) {
       this.webcam.endDetection();
 
+      this.scene.stop('EndlessScene');
+
+      // grab the token from local storage
+      const token = window.localStorage.getItem('token');
+
+      // once token is aquired, find user
+      const { data: loggedinUser } = await axios.get('/auth/me', {
+        headers: {
+          authorization: token,
+        },
+      });
+
       // calculates the total calories burned per game
       const calsBurned = totalCalsBurned(
-        150,
+        loggedinUser.weight || 125,
         this.player.jumps,
         this.player.ducks
       );
-
-      this.scene.stop('EndlessScene');
 
       // creates game instance in database
       const newGame = await axios.post('/api/games', {
@@ -177,10 +187,11 @@ export default class EndlessScene extends Phaser.Scene {
         jumps: this.player.jumps,
         ducks: this.player.ducks,
         caloriesBurned: calsBurned,
+        userId: loggedinUser.id,
       });
 
       // starts Game Over Scene with stats passed through
-      this.scene.start('GameOverScene', {
+      this.scene.launch('GameOverScene', {
         score: this.score,
         jumps: this.player.jumps,
         ducks: this.player.ducks,
