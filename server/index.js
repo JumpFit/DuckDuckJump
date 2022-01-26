@@ -20,17 +20,6 @@ app.use('/api', require('./api'));
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// any remaining requests with an extension (.js, .css, etc.) send 404
-// app.use((req, res, next) => {
-//   if (path.extname(req.path).length) {
-//     const err = new Error('Not found');
-//     err.status = 404;
-//     next(err);
-//   } else {
-//     next();
-//   }
-// });
-
 app.use('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, '..', '/public/index.html'));
 });
@@ -46,11 +35,7 @@ const PORT = process.env.PORT || 8080;
 
 const startServer = async () => {
   try {
-    if (process.env.SEED === 'true') {
-      await seed();
-    } else {
-      await db.sync();
-    }
+    await db.sync({ force: true });
 
     app.listen(PORT, () => {
       console.log(`server is listening on port ${PORT}`);
