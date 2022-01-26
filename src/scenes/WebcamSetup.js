@@ -40,7 +40,7 @@ export default class WebcamSetup extends Phaser.Scene {
       )
       .setOrigin(0, 1)
       .setDepth(1)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
     this.mainmenuButton.on('pointerdown', () => {
       this.scene.stop('WebcamSetup');
       this.scene.start('MainMenuScene');
@@ -50,7 +50,7 @@ export default class WebcamSetup extends Phaser.Scene {
       .image(this.scale.width * 0.98, this.scale.height * 0.95, 'next')
       .setOrigin(1, 1)
       .setDepth(2)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
     this.nextButton.on('pointerdown', () => {
       this.beginDetectionTest();
     });

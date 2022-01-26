@@ -57,7 +57,7 @@ export default class MainMenuScene extends Phaser.Scene {
         .image(width * 0.025, height * 0.05, 'login')
         .setOrigin(0)
         .setDepth(2)
-        .setInteractive({ userHandCursor: true });
+        .setInteractive({ useHandCursor: true });
 
       loginButton.on('pointerdown', function () {
         scene.scene.stop('MainMenuScene');
@@ -68,7 +68,7 @@ export default class MainMenuScene extends Phaser.Scene {
         .image(width * 0.971, height * 0.055, 'signup')
         .setOrigin(1, 0)
         .setDepth(2)
-        .setInteractive({ userHandCursor: true });
+        .setInteractive({ useHandCursor: true });
 
       signupButton.on('pointerdown', function () {
         scene.scene.stop('MainMenuScene');
@@ -86,7 +86,7 @@ export default class MainMenuScene extends Phaser.Scene {
         .image(width * 0.971, height * 0.055, 'signout')
         .setOrigin(1, 0)
         .setDepth(2)
-        .setInteractive({ userHandCursor: true });
+        .setInteractive({ useHandCursor: true });
 
       signoutButton.on('pointerdown', function () {
         window.localStorage.removeItem('token');
@@ -98,7 +98,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .image(width * 0.025, height * 0.945, 'howtoplay')
       .setOrigin(0, 1)
       .setDepth(2)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
 
     howToPlayButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
@@ -114,7 +114,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .image(width * 0.98, height * 0.94, 'leaderboard')
       .setOrigin(1, 1)
       .setDepth(2)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
 
     leaderboardButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
@@ -124,7 +124,7 @@ export default class MainMenuScene extends Phaser.Scene {
     const startGameButton = scene.add
       .image(width * 0.48, height * 0.875, 'startgame')
       .setDepth(2)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
 
     startGameButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
