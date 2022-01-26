@@ -12,6 +12,7 @@ export default class WebCam extends Phaser.GameObjects.Video {
     options = { camera: null, visible: false }
   ) {
     super(scene, x, y, key);
+    this.removeVideoElementOnDestroy = true;
     this.camera = options.camera;
     this.player = player;
     this.setVisible(!!options.visible);
@@ -48,11 +49,11 @@ export default class WebCam extends Phaser.GameObjects.Video {
       .setOrigin(0.5);
 
     this.detector = new Detector();
-    const [stream] = await Promise.all([
+    [this.stream] = await Promise.all([
       camera.getStream(),
       this.detector.init(),
     ]);
-    this.loadMediaStream(stream);
+    this.loadMediaStream(this.stream);
 
     await this.playVideo();
     this.detectPoses();
@@ -62,8 +63,8 @@ export default class WebCam extends Phaser.GameObjects.Video {
     if (this.detector) {
       this.detector.endDetection();
     }
-    const stream = await this.camera.getStream();
-    this.video.srcObject = stream;
+    this.stream = await this.camera.getStream();
+    this.video.srcObject = this.stream;
     try {
       await this.playVideo();
       this.detectPoses();
@@ -81,6 +82,8 @@ export default class WebCam extends Phaser.GameObjects.Video {
       });
       if (this.scene) {
         this.play();
+      } else {
+        this.destroy();
       }
     } catch (error) {
       console.log(error);
@@ -124,5 +127,17 @@ export default class WebCam extends Phaser.GameObjects.Video {
     this.endDetection();
     this.player = player;
     this.detectPoses();
+  }
+
+  destroy() {
+    if (this.detector) {
+      this.detector.destroy();
+    }
+    if (this.stream) {
+      this.stream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+    super.destroy();
   }
 }
