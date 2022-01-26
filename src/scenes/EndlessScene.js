@@ -185,7 +185,6 @@ export default class EndlessScene extends Phaser.Scene {
     // GAME OVER
     if (this.player.y > height) {
       this.endGame();
-     
     } else {
       this.generatePlatform();
       this.player.x = gameOptions.playerStartPosition[0];
@@ -205,42 +204,42 @@ export default class EndlessScene extends Phaser.Scene {
   async endGame() {
     this.webcam.endDetection();
     this.scene.stop('EndlessScene');
-    
-      // grab the token from local storage
-      const token = window.localStorage.getItem('token');
 
-      // once token is aquired, find user
-      const { data: loggedinUser } = await axios.get('/auth/me', {
-        headers: {
-          authorization: token,
-        },
-      });
+    // grab the token from local storage
+    const token = window.localStorage.getItem('token');
 
-      // calculates the total calories burned per game
-      this.calsBurned = totalCalsBurned(
-        loggedinUser.weight || 125,
-        this.player.jumps,
-        this.player.ducks
-      );
+    // once token is aquired, find user
+    const { data: loggedinUser } = await axios.get('/auth/me', {
+      headers: {
+        authorization: token,
+      },
+    });
+
+    // calculates the total calories burned per game
+    this.calsBurned = totalCalsBurned(
+      loggedinUser.weight || 125,
+      this.player.jumps,
+      this.player.ducks
+    );
 
     // creates game instance in database
-      const newGame = await axios.post('/api/games', {
-        score: this.score,
-        jumps: this.player.jumps,
-        ducks: this.player.ducks,
-        caloriesBurned: this.calsBurned,
-        userId: loggedinUser.id || null,
-      });
+    const newGame = await axios.post('/api/games', {
+      score: this.score,
+      jumps: this.player.jumps,
+      ducks: this.player.ducks,
+      caloriesBurned: this.calsBurned,
+      userId: loggedinUser.id || null,
+    });
 
-      // starts Game Over Scene with stats passed through
-      this.scene.launch('GameOverScene', {
-        score: this.score,
-        jumps: this.player.jumps,
-        ducks: this.player.ducks,
-        grapes: this.grapes,
-        caloriesBurned: this.calsBurned,
-        webcam: this.webcam,
-      });
+    // starts Game Over Scene with stats passed through
+    this.scene.launch('GameOverScene', {
+      score: this.score,
+      jumps: this.player.jumps,
+      ducks: this.player.ducks,
+      grapes: this.grapes,
+      caloriesBurned: this.calsBurned,
+      webcam: this.webcam,
+    });
   }
 
   //main logic to handle platforms
