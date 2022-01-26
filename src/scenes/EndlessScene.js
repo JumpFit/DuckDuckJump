@@ -208,12 +208,20 @@ export default class EndlessScene extends Phaser.Scene {
     // grab the token from local storage
     const token = window.localStorage.getItem('token');
 
-    // once token is aquired, find user
-    const { data: loggedinUser } = await axios.get('/auth/me', {
-      headers: {
-        authorization: token,
-      },
-    });
+    let loggedinUser = {};
+    if (token) {
+      try {
+        // once token is aquired, find user
+        const { data } = await axios.get('/auth/me', {
+          headers: {
+            authorization: token,
+          },
+        });
+        loggedinUser = data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     // calculates the total calories burned per game
     this.calsBurned = totalCalsBurned(
@@ -223,13 +231,17 @@ export default class EndlessScene extends Phaser.Scene {
     );
 
     // creates game instance in database
-    const newGame = await axios.post('/api/games', {
-      score: this.score,
-      jumps: this.player.jumps,
-      ducks: this.player.ducks,
-      caloriesBurned: this.calsBurned,
-      userId: loggedinUser.id || null,
-    });
+    try {
+      const newGame = await axios.post('/api/games', {
+        score: this.score,
+        jumps: this.player.jumps,
+        ducks: this.player.ducks,
+        caloriesBurned: this.calsBurned,
+        userId: loggedinUser.id || null,
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
     // starts Game Over Scene with stats passed through
     this.scene.launch('GameOverScene', {
