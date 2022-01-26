@@ -8,6 +8,7 @@ export default class EndlessScene extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image('red-grape', 'assets/collectibles/red-grape.png');
     this.load.image('front-clouds', 'assets/front-clouds.png');
     this.load.image('back-clouds', 'assets/back-clouds.png');
     this.load.image('platform', 'assets/platform.png');
@@ -33,6 +34,7 @@ export default class EndlessScene extends Phaser.Scene {
       150,
       'front-clouds'
     );
+    this.addedPlatforms = 0;
 
     // SCORING:
 
@@ -88,6 +90,20 @@ export default class EndlessScene extends Phaser.Scene {
       },
     });
 
+    // group with all active grapes.
+    this.grapeGroup = this.add.group({
+      removeCallback: function (grape) {
+        grape.scene.grapePool.add(grape);
+      },
+    });
+
+    // grape pool
+    this.grapePool = this.add.group({
+      removeCallback: function (grape) {
+        grape.scene.grapeGroup.add(grape);
+      },
+    });
+
     //generate starting platform
     this.addPlatform(
       width,
@@ -98,6 +114,19 @@ export default class EndlessScene extends Phaser.Scene {
     //create collision between platforms and player
     this.physics.add.collider(this.player, this.platformGroup);
 
+    this.physics.add.overlap(
+      this.player,
+      this.grapeGroup,
+      function (player, grape) {
+        this.grapes++;
+        this.grapesBoard.setText(`Grapes: ${this.grapes}`);
+        this.grapeGroup.killAndHide(grape);
+        this.grapeGroup.remove(grape);
+      },
+      null,
+      this
+    );
+
     // CLOCK FUNCTIONS:
     this.time.addEvent({
       delay: 10,
@@ -107,16 +136,6 @@ export default class EndlessScene extends Phaser.Scene {
       },
       loop: true,
     });
-    // this.time.addEvent({
-    //   delay: 5000,
-    //   callback: () => {
-    //     generateGrape(this.player.x);
-    //   },
-    //   loop: true,
-    // });
-    // const generateGrape = (offset = 0) => {
-    //   this.redGrapes.create(offset + Math.random() * width, 0, 'red-grape');
-    // };
 
     this.updateStatsBoard = () => {
       this.statsBoard.setText(
@@ -142,9 +161,16 @@ export default class EndlessScene extends Phaser.Scene {
       });
     }
 
-    this.platformGenerator();
+    this.generatePlatform();
     this.player.x = gameOptions.playerStartPosition[0];
-    console.log(this.player.y);
+
+    // recycling grapes
+    this.grapeGroup.getChildren().forEach(function (grape) {
+      if (grape.x < -grape.displayWidth / 2) {
+        this.grapeGroup.killAndHide(grape);
+        this.grapeGroup.remove(grape);
+      }
+    }, this);
 
     this.player.update(delta);
   }
@@ -152,9 +178,10 @@ export default class EndlessScene extends Phaser.Scene {
   //main logic to handle platforms
   addPlatform = (platformWidth, posX, posY) => {
     const { width, height } = this.scale;
+    this.addedPlatforms++;
     let platform;
     //use a platform from the platform pool if there is one
-    if (this.platformPool.getLength() >= 3) {
+    if (this.platformPool.getLength()) {
       platform = this.platformPool.getFirst();
       platform.x = posX;
       platform.active = true;
@@ -178,10 +205,12 @@ export default class EndlessScene extends Phaser.Scene {
       gameOptions.spawnRange[0],
       gameOptions.spawnRange[1]
     );
+
+    this.generateGrape(posX, posY, platform);
   };
 
   //function that handles platform updates
-  platformGenerator = () => {
+  generatePlatform = () => {
     const { width, height } = this.scale;
 
     // recycling platforms
@@ -236,6 +265,28 @@ export default class EndlessScene extends Phaser.Scene {
         width + nextPlatformWidth / 2,
         nextPlatformHeight
       );
+    }
+  };
+
+  generateGrape = (posX, posY, platform) => {
+    // is there a grape over the platform?
+    if (this.addedPlatforms > 1) {
+      if (Phaser.Math.Between(1, 100) <= gameOptions.grapePercent) {
+        if (this.grapePool.getLength()) {
+          let grape = this.grapePool.getFirst();
+          grape.x = posX;
+          grape.y = posY - 40;
+          grape.alpha = 1;
+          grape.active = true;
+          grape.visible = true;
+          this.grapePool.remove(grape);
+        } else {
+          let grape = this.physics.add.sprite(posX, posY - 40, 'red-grape');
+          grape.setImmovable(true);
+          grape.setVelocityX(platform.body.velocity.x);
+          this.grapeGroup.add(grape);
+        }
+      }
     }
   };
 }
