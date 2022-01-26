@@ -1,7 +1,6 @@
 import * as Phaser from 'phaser';
-import { gameOptions, BACKGROUND_COLOR } from '../constants';
+import { gameOptions, BACKGROUND_COLOR } from '../utils/constants';
 import { Player } from '../classes/Player';
-import WebCam from '../classes/WebCam';
 
 let frontClouds;
 let backClouds;
@@ -21,6 +20,11 @@ export default class EndlessScene extends Phaser.Scene {
       'assets/characters/duck.json'
     );
   }
+
+  init(webcam) {
+    this.webcam = webcam;
+  }
+
   create() {
     const { width, height } = this.scale;
     backClouds = this.add.tileSprite(width / 2, 75, width, 150, 'back-clouds');
@@ -69,6 +73,7 @@ export default class EndlessScene extends Phaser.Scene {
       'duck'
     );
     this.player.setGravityY(gameOptions.playerGravity);
+    this.webcam.setPlayer(this.player);
 
     // group with all active platforms.
     this.platformGroup = this.add.group({
@@ -161,12 +166,14 @@ export default class EndlessScene extends Phaser.Scene {
 
     // game over
     if (this.player.y > height) {
+      this.webcam.endDetection();
       this.scene.stop('EndlessScene');
       this.scene.start('GameOverScene', {
         score: this.score,
         jumps: this.player.jumps,
         ducks: this.player.ducks,
         grapes: this.grapes,
+        webcam: this.webcam,
       });
     }
     this.player.x = gameOptions.playerStartPosition[0];

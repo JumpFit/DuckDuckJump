@@ -8,7 +8,8 @@ export default class GameOverScene extends Phaser.Scene {
     this.state = {};
   }
 
-  init({ score, grapes, jumps, ducks }) {
+  init({ webcam, score, grapes, jumps, ducks }) {
+    this.webcam = webcam;
     this.score = score;
     this.grapes = grapes;
     this.jumps = jumps;
@@ -78,7 +79,8 @@ export default class GameOverScene extends Phaser.Scene {
 
     mainmenuButton.on('pointerdown', function () {
       scene.scene.stop('GameOverScene');
-      scene.scene.start('MainMenuScene');
+      scene.scene.stop('WebcamSetup');
+      scene.scene.start('MainMenuScene', { webcam: scene.webcam });
     });
 
     // loads play again button
@@ -90,7 +92,7 @@ export default class GameOverScene extends Phaser.Scene {
 
     playagainButton.on('pointerdown', function () {
       scene.scene.stop('GameOverScene');
-      scene.scene.start('EndlessScene');
+      scene.webcam.scene.playAgain();
     });
   }
 

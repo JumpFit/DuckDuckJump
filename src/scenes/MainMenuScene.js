@@ -20,6 +20,12 @@ export default class MainMenuScene extends Phaser.Scene {
     this.load.image('startgame', 'assets/mainmenu/startgame.png');
   }
 
+  init(data) {
+    if (data) {
+      this.webcam = data.webcam;
+    }
+  }
+
   create() {
     const scene = this;
     const { width, height } = this.scale;
@@ -72,7 +78,11 @@ export default class MainMenuScene extends Phaser.Scene {
 
     howToPlayButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
-      scene.scene.start('PlayScene');
+      if (scene.webcam) {
+        scene.webcam.mode = 'PlayScene';
+        scene.webcam.scene.playAgain();
+      }
+      scene.scene.start('WebcamSetup', { mode: 'PlayScene' });
     });
 
     const leaderboardButton = scene.add
@@ -94,7 +104,11 @@ export default class MainMenuScene extends Phaser.Scene {
 
     startGameButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
-      scene.scene.start('EndlessScene');
+      if (scene.webcam) {
+        scene.webcam.mode = 'EndlessScene';
+        scene.webcam.scene.playAgain();
+      }
+      scene.scene.start('WebcamSetup', { mode: 'EndlessScene' });
     });
   }
 
