@@ -150,9 +150,33 @@ export default class EndlessScene extends Phaser.Scene {
         `Jumps: ${this.player.jumps}, Ducks: ${this.player.ducks}`
       );
     };
+
+    this.camError = this.add.text(
+      0,
+      height - 30,
+      `Make sure your whole body is in the frame!`,
+      {
+        backgroundColor: 'black',
+        color: 'white',
+        align: 'center',
+        fontSize: 25,
+        fixedHeight: 30,
+        fixedWidth: width,
+      }
+    );
+    this.camError.setScrollFactor(0);
   }
 
-  async update(time, delta) {
+  update(time, delta) {
+    if (this.showCamError) {
+      if (!this.camError.visible) {
+        this.camError.setVisible(true);
+      }
+    } else {
+      if (this.camError.visible) {
+        this.camError.setVisible(false);
+      }
+    }
     const { width, height } = this.scale;
 
     this.frontClouds.tilePositionX += 0.5;
@@ -160,45 +184,8 @@ export default class EndlessScene extends Phaser.Scene {
 
     // GAME OVER
     if (this.player.y > height) {
-      this.webcam.endDetection();
-
-      this.scene.stop('EndlessScene');
-
-      // grab the token from local storage
-      const token = window.localStorage.getItem('token');
-
-      // once token is aquired, find user
-      const { data: loggedinUser } = await axios.get('/auth/me', {
-        headers: {
-          authorization: token,
-        },
-      });
-
-      // calculates the total calories burned per game
-      const calsBurned = totalCalsBurned(
-        loggedinUser.weight || 125,
-        this.player.jumps,
-        this.player.ducks
-      );
-
-      // creates game instance in database
-      const newGame = await axios.post('/api/games', {
-        score: this.score,
-        jumps: this.player.jumps,
-        ducks: this.player.ducks,
-        caloriesBurned: calsBurned,
-        userId: loggedinUser.id,
-      });
-
-      // starts Game Over Scene with stats passed through
-      this.scene.launch('GameOverScene', {
-        score: this.score,
-        jumps: this.player.jumps,
-        ducks: this.player.ducks,
-        grapes: this.grapes,
-        caloriesBurned: calsBurned,
-        webcam: this.webcam,
-      });
+      this.endGame();
+     
     } else {
       this.generatePlatform();
       this.player.x = gameOptions.playerStartPosition[0];
@@ -213,6 +200,47 @@ export default class EndlessScene extends Phaser.Scene {
 
       this.player.update(delta);
     }
+  }
+
+  async endGame() {
+    this.webcam.endDetection();
+    this.scene.stop('EndlessScene');
+    
+      // grab the token from local storage
+      const token = window.localStorage.getItem('token');
+
+      // once token is aquired, find user
+      const { data: loggedinUser } = await axios.get('/auth/me', {
+        headers: {
+          authorization: token,
+        },
+      });
+
+      // calculates the total calories burned per game
+      this.calsBurned = totalCalsBurned(
+        loggedinUser.weight || 125,
+        this.player.jumps,
+        this.player.ducks
+      );
+
+    // creates game instance in database
+      const newGame = await axios.post('/api/games', {
+        score: this.score,
+        jumps: this.player.jumps,
+        ducks: this.player.ducks,
+        caloriesBurned: this.calsBurned,
+        userId: loggedinUser.id || null,
+      });
+
+      // starts Game Over Scene with stats passed through
+      this.scene.launch('GameOverScene', {
+        score: this.score,
+        jumps: this.player.jumps,
+        ducks: this.player.ducks,
+        grapes: this.grapes,
+        caloriesBurned: this.calsBurned,
+        webcam: this.webcam,
+      });
   }
 
   //main logic to handle platforms

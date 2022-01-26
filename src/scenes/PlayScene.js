@@ -20,7 +20,7 @@ export default class PlayScene extends Phaser.Scene {
     );
   }
 
-  init({ webcam }) {
+  init(webcam) {
     this.webcam = webcam;
   }
 
