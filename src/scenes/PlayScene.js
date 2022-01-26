@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import { Player } from '../classes/Player';
-import { BACKGROUND_COLOR } from '../utils/constants';
+import { gameOptions, BACKGROUND_COLOR } from '../utils/constants';
 
 export default class PlayScene extends Phaser.Scene {
   constructor() {
@@ -29,8 +29,6 @@ export default class PlayScene extends Phaser.Scene {
 
     this.backClouds = this.add.tileSprite(400, 75, 13500, 150, 'back-clouds');
     this.frontClouds = this.add.tileSprite(400, 75, 13500, 150, 'front-clouds');
-
-    // SCORING:
 
     // GRAPES BOARD:
     this.grapes = 0;
@@ -82,6 +80,7 @@ export default class PlayScene extends Phaser.Scene {
 
     ground.setCollisionByExclusion(-1, true);
     this.player = new Player(this, 30, 450);
+    this.player.SetGravityY(gameOptions.playerGravity);
     this.webcam.setPlayer(this.player);
     this.player.setVelocityX(200);
     this.player.setOffset(0, 55);
@@ -132,7 +131,7 @@ export default class PlayScene extends Phaser.Scene {
     });
 
     this.time.addEvent({
-      delay: 10000,
+      delay: 10,
       callback: () => {
         this.score++;
         this.scoreBoard.setText(`Score: ${this.score}`);

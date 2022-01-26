@@ -1,10 +1,6 @@
 import * as Phaser from 'phaser';
 import { gameOptions, BACKGROUND_COLOR } from '../utils/constants';
 import { Player } from '../classes/Player';
-import WebCam from '../classes/WebCam';
-
-let frontClouds;
-let backClouds;
 
 export default class EndlessScene extends Phaser.Scene {
   constructor() {
@@ -23,8 +19,14 @@ export default class EndlessScene extends Phaser.Scene {
   }
   create() {
     const { width, height } = this.scale;
-    backClouds = this.add.tileSprite(width / 2, 75, width, 150, 'back-clouds');
-    frontClouds = this.add.tileSprite(
+    this.backClouds = this.add.tileSprite(
+      width / 2,
+      75,
+      width,
+      150,
+      'back-clouds'
+    );
+    this.frontClouds = this.add.tileSprite(
       width / 2,
       75,
       width,
@@ -151,16 +153,13 @@ export default class EndlessScene extends Phaser.Scene {
         `Jumps: ${this.player.jumps}, Ducks: ${this.player.ducks}`
       );
     };
-
-    //Motion controls
-    //this.webcam = new WebCam(this.player, this, 0, 0, 'webcam');
   }
 
   update(time, delta) {
     const { width, height } = this.scale;
 
-    frontClouds.tilePositionX += 0.5;
-    backClouds.tilePositionX += 0.25;
+    this.frontClouds.tilePositionX += 0.5;
+    this.backClouds.tilePositionX += 0.25;
 
     // game over
     if (this.player.y > height) {
@@ -227,5 +226,6 @@ export default class EndlessScene extends Phaser.Scene {
       );
     }
     this.player.update(delta);
+    console.log(this.player.x);
   }
 }
