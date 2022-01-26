@@ -88,36 +88,6 @@ export default class EndlessScene extends Phaser.Scene {
       },
     });
 
-    //main logic for generating platforms
-    this.addPlatform = (platformWidth, posX, posY) => {
-      let platform;
-      //use a platform from the platform pool if there is one
-      if (this.platformPool.getLength()) {
-        platform = this.platformPool.getFirst();
-        platform.x = posX;
-        platform.active = true;
-        platform.visible = true;
-        this.platformPool.remove(platform);
-        //create a platform and add it to the pool using these values if none are available
-      } else {
-        platform = this.physics.add.sprite(posX, posY, 'platform');
-        platform.setImmovable(true);
-        platform.setVelocityX(
-          Phaser.Math.Between(
-            gameOptions.platformSpeedRange[0],
-            gameOptions.platformSpeedRange[1]
-          ) * -1
-        );
-        this.platformGroup.add(platform);
-      }
-      //distance between platform spawns
-      platform.displayWidth = platformWidth;
-      this.nextPlatformDistance = Phaser.Math.Between(
-        gameOptions.spawnRange[0],
-        gameOptions.spawnRange[1]
-      );
-    };
-
     //generate starting platform
     this.addPlatform(
       width,
@@ -172,7 +142,47 @@ export default class EndlessScene extends Phaser.Scene {
       });
     }
 
+    this.platformGenerator();
     this.player.x = gameOptions.playerStartPosition[0];
+    console.log(this.player.y);
+
+    this.player.update(delta);
+  }
+
+  //main logic to handle platforms
+  addPlatform = (platformWidth, posX, posY) => {
+    const { width, height } = this.scale;
+    let platform;
+    //use a platform from the platform pool if there is one
+    if (this.platformPool.getLength() >= 3) {
+      platform = this.platformPool.getFirst();
+      platform.x = posX;
+      platform.active = true;
+      platform.visible = true;
+      this.platformPool.remove(platform);
+      //create a platform and add it to the pool using these values if none are available
+    } else {
+      platform = this.physics.add.sprite(posX, posY, 'platform');
+      platform.setImmovable(true);
+      platform.setVelocityX(
+        Phaser.Math.Between(
+          gameOptions.platformSpeedRange[0],
+          gameOptions.platformSpeedRange[1]
+        ) * -1
+      );
+      this.platformGroup.add(platform);
+    }
+    //distance between platform spawns
+    platform.displayWidth = platformWidth;
+    this.nextPlatformDistance = Phaser.Math.Between(
+      gameOptions.spawnRange[0],
+      gameOptions.spawnRange[1]
+    );
+  };
+
+  //function that handles platform updates
+  platformGenerator = () => {
+    const { width, height } = this.scale;
 
     // recycling platforms
     let minDistance = width;
@@ -227,6 +237,5 @@ export default class EndlessScene extends Phaser.Scene {
         nextPlatformHeight
       );
     }
-    this.player.update(delta);
-  }
+  };
 }
