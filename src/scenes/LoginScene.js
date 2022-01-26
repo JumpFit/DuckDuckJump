@@ -63,25 +63,26 @@ export default class LoginScene extends Phaser.Scene {
         const username = scene.inputElement.getChildByName('username').value;
         const password = scene.inputElement.getChildByName('password').value;
 
-        const loggedinUser = await axios.post('/auth/login', {
+        const loggedUser = await axios.post('/auth/login', {
           username,
           password,
         });
 
-        // // window.localStorage.setItem('token', newUser.data.token);
-        // // const token = window.localStorage.getItem('token');
-        // // console.log('TOKEN!!!', token);
-        // // if (token) {
-        // //   const res = await axios.get('/auth/me', {
-        // //     headers: {
-        // //       authorization: token,
-        // //     },
-        // //   });
-        // // }
+        // stores generated token into window local storage
+        window.localStorage.setItem('token', loggedUser.data.token);
+        const token = window.localStorage.getItem('token');
 
+        // once token is generated, find user
+        const { data: loggedinUser } = await axios.get('/auth/me', {
+          headers: {
+            authorization: token,
+          },
+        });
+
+        // once user is found, pass it through to Main Menu
         if (loggedinUser !== null) {
           scene.scene.stop('LoginScene');
-          scene.scene.launch('MainMenuScene');
+          scene.scene.launch('MainMenuScene', { loggedinUser: loggedinUser });
         }
       }
 

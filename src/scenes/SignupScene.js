@@ -87,17 +87,6 @@ export default class SignupScene extends Phaser.Scene {
           heightInches,
         });
 
-        // window.localStorage.setItem('token', newUser.data.token);
-        // const token = window.localStorage.getItem('token');
-        // console.log('TOKEN!!!', token);
-        // if (token) {
-        //   const res = await axios.get('/auth/me', {
-        //     headers: {
-        //       authorization: token,
-        //     },
-        //   });
-        // }
-
         if (newUser !== null) {
           scene.scene.stop('SignupScene');
           scene.scene.launch('LoginScene');
