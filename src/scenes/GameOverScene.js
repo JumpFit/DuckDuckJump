@@ -63,7 +63,7 @@ export default class GameOverScene extends Phaser.Scene {
     const caloriesBurned = scene.add
       .text(width * 0.58, height * 0.57, `${this.caloriesBurned || 0}`, {
         fontSize: 85,
-        fontFamily: 'Horta',
+        fontFamily: 'HortaRegular',
         color: STATS_COLOR,
       })
       .setDepth(1)
