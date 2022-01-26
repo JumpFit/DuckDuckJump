@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { gameOptions, BACKGROUND_COLOR } from '../constants';
+import { gameOptions, BACKGROUND_COLOR } from '../utils/constants';
 import { Player } from '../classes/Player';
 
 let frontClouds;
