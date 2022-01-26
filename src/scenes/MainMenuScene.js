@@ -18,6 +18,8 @@ export default class MainMenuScene extends Phaser.Scene {
     this.load.image('howtoplay', 'assets/mainmenu/howtoplay.png');
     this.load.image('leaderboard', 'assets/mainmenu/leaderboard.png');
     this.load.image('startgame', 'assets/mainmenu/startgame.png');
+    this.load.image('welcomeback', 'assets/mainmenu/welcomeback.png');
+    this.load.image('signout', 'assets/mainmenu/signout.png');
   }
 
   init(data) {
@@ -50,7 +52,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .setDisplaySize(width, height);
 
     // if not loggedin, login and signup button should show
-    if (!this.loggedinUser) {
+    if (!window.localStorage.token) {
       const loginButton = scene.add
         .image(width * 0.025, height * 0.05, 'login')
         .setOrigin(0)
@@ -73,6 +75,23 @@ export default class MainMenuScene extends Phaser.Scene {
         scene.scene.start('SignupScene');
       });
     } else {
+      //if loggedin, welcome and signout button should show
+
+      const welcomeBack = scene.add
+        .image(width * 0.025, height * 0.05, 'welcomeback')
+        .setOrigin(0)
+        .setDepth(1);
+
+      const signoutButton = scene.add
+        .image(width * 0.971, height * 0.055, 'signout')
+        .setOrigin(1, 0)
+        .setDepth(2)
+        .setInteractive({ userHandCursor: true });
+
+      signoutButton.on('pointerdown', function () {
+        window.localStorage.removeItem('token');
+        scene.scene.start('MainMenuScene');
+      });
     }
 
     const howToPlayButton = scene.add
