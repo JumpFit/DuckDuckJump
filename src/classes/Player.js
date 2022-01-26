@@ -36,6 +36,7 @@ export class Player extends Actor {
     this.on('duck', () => {
       this.anims.play('duck', true);
       if (!this._isDucking) {
+        this.body.setVelocityY(500);
         this.ducks++;
         this._isDucking = true;
       }
