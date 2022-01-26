@@ -58,7 +58,7 @@ export default class SignupScene extends Phaser.Scene {
     // gives main menu button funcitionality
     mainmenuButton.on('pointerdown', function () {
       scene.scene.stop('SignupScene');
-      scene.scene.start('MainMenuScene', { webcam: this.webcam });
+      scene.scene.start('MainMenuScene', { webcam: scene.webcam });
     });
 
     // loads sign up html form
@@ -95,13 +95,13 @@ export default class SignupScene extends Phaser.Scene {
 
         if (newUser !== null) {
           scene.scene.stop('SignupScene');
-          scene.scene.launch('LoginScene', { webcam: this.webcam });
+          scene.scene.launch('LoginScene', { webcam: scene.webcam });
         }
       }
 
       if (event.target.name === 'redirectLoginButton') {
         scene.scene.stop('SignupScene');
-        scene.scene.launch('LoginScene', { webcam: this.webcam });
+        scene.scene.launch('LoginScene', { webcam: scene.webcam });
       }
     });
   }

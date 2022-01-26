@@ -61,7 +61,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
       loginButton.on('pointerdown', function () {
         scene.scene.stop('MainMenuScene');
-        scene.scene.start('LoginScene', { webcam: this.webcam });
+        scene.scene.start('LoginScene', { webcam: scene.webcam });
       });
 
       const signupButton = scene.add
@@ -72,7 +72,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
       signupButton.on('pointerdown', function () {
         scene.scene.stop('MainMenuScene');
-        scene.scene.start('SignupScene', { webcam: this.webcam });
+        scene.scene.start('SignupScene', { webcam: scene.webcam });
       });
     } else {
       //if loggedin, welcome and signout button should show
@@ -90,7 +90,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
       signoutButton.on('pointerdown', function () {
         window.localStorage.removeItem('token');
-        scene.scene.start('MainMenuScene', { webcam: this.webcam });
+        scene.scene.start('MainMenuScene', { webcam: scene.webcam });
       });
     }
 
@@ -118,7 +118,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
     leaderboardButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
-      scene.scene.start('LeaderBoardScene', { webcam: this.webcam });
+      scene.scene.start('LeaderBoardScene', { webcam: scene.webcam });
     });
 
     const startGameButton = scene.add
