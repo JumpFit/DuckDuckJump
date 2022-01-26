@@ -150,9 +150,33 @@ export default class EndlessScene extends Phaser.Scene {
         `Jumps: ${this.player.jumps}, Ducks: ${this.player.ducks}`
       );
     };
+
+    this.camError = this.add.text(
+      0,
+      height - 30,
+      `Make sure your whole body is in the frame!`,
+      {
+        backgroundColor: 'black',
+        color: 'white',
+        align: 'center',
+        fontSize: 25,
+        fixedHeight: 30,
+        fixedWidth: width,
+      }
+    );
+    this.camError.setScrollFactor(0);
   }
 
-  async update(time, delta) {
+  update(time, delta) {
+    if (this.showCamError) {
+      if (!this.camError.visible) {
+        this.camError.setVisible(true);
+      }
+    } else {
+      if (this.camError.visible) {
+        this.camError.setVisible(false);
+      }
+    }
     const { width, height } = this.scale;
 
     this.frontClouds.tilePositionX += 0.5;
@@ -171,13 +195,7 @@ export default class EndlessScene extends Phaser.Scene {
 
       this.scene.stop('EndlessScene');
 
-      // creates game instance in database
-      const newGame = await axios.post('/api/games', {
-        score: this.score,
-        jumps: this.player.jumps,
-        ducks: this.player.ducks,
-        caloriesBurned: calsBurned,
-      });
+      this.saveGameToDB();
 
       // starts Game Over Scene with stats passed through
       this.scene.start('GameOverScene', {
@@ -202,6 +220,16 @@ export default class EndlessScene extends Phaser.Scene {
 
       this.player.update(delta);
     }
+  }
+
+  async saveGameToDB() {
+    // creates game instance in database
+    const newGame = await axios.post('/api/games', {
+      score: this.score,
+      jumps: this.player.jumps,
+      ducks: this.player.ducks,
+      caloriesBurned: calsBurned,
+    });
   }
 
   //main logic to handle platforms
