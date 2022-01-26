@@ -53,7 +53,7 @@ export default class SignupScene extends Phaser.Scene {
       .image(width * 0.028, height * 0.935, 'mainmenuButton')
       .setOrigin(0, 1)
       .setDepth(1)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
 
     // gives main menu button funcitionality
     mainmenuButton.on('pointerdown', function () {
@@ -92,17 +92,6 @@ export default class SignupScene extends Phaser.Scene {
           heightFeet,
           heightInches,
         });
-
-        // window.localStorage.setItem('token', newUser.data.token);
-        // const token = window.localStorage.getItem('token');
-        // console.log('TOKEN!!!', token);
-        // if (token) {
-        //   const res = await axios.get('/auth/me', {
-        //     headers: {
-        //       authorization: token,
-        //     },
-        //   });
-        // }
 
         if (newUser !== null) {
           scene.scene.stop('SignupScene');

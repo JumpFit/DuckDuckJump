@@ -62,7 +62,7 @@ export default class LeaderBoardScene extends Phaser.Scene {
       .image(width * 0.028, height * 0.935, 'mainmenuButton')
       .setOrigin(0, 1)
       .setDepth(1)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
 
     mainmenuButton.on('pointerdown', function () {
       scene.scene.stop('LeaderBoardScene');

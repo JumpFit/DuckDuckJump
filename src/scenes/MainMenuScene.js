@@ -18,11 +18,14 @@ export default class MainMenuScene extends Phaser.Scene {
     this.load.image('howtoplay', 'assets/mainmenu/howtoplay.png');
     this.load.image('leaderboard', 'assets/mainmenu/leaderboard.png');
     this.load.image('startgame', 'assets/mainmenu/startgame.png');
+    this.load.image('welcomeback', 'assets/mainmenu/welcomeback.png');
+    this.load.image('signout', 'assets/mainmenu/signout.png');
   }
 
   init(data) {
     if (data) {
       this.webcam = data.webcam;
+      this.loggedinUser = data.loggedinUser;
     }
   }
 
@@ -48,33 +51,54 @@ export default class MainMenuScene extends Phaser.Scene {
       .setDepth(1)
       .setDisplaySize(width, height);
 
-    const loginButton = scene.add
-      .image(width * 0.025, height * 0.05, 'login')
-      .setOrigin(0)
-      .setDepth(2)
-      .setInteractive({ userHandCursor: true });
+    // if not loggedin, login and signup button should show
+    if (!window.localStorage.token) {
+      const loginButton = scene.add
+        .image(width * 0.025, height * 0.05, 'login')
+        .setOrigin(0)
+        .setDepth(2)
+        .setInteractive({ useHandCursor: true });
 
-    loginButton.on('pointerdown', function () {
-      scene.scene.stop('MainMenuScene');
-      scene.scene.start('LoginScene', { webcam: this.webcam });
-    });
+      loginButton.on('pointerdown', function () {
+        scene.scene.stop('MainMenuScene');
+        scene.scene.start('LoginScene', { webcam: this.webcam });
+      });
 
-    const signupButton = scene.add
-      .image(width * 0.971, height * 0.055, 'signup')
-      .setOrigin(1, 0)
-      .setDepth(2)
-      .setInteractive({ userHandCursor: true });
+      const signupButton = scene.add
+        .image(width * 0.971, height * 0.055, 'signup')
+        .setOrigin(1, 0)
+        .setDepth(2)
+        .setInteractive({ useHandCursor: true });
 
-    signupButton.on('pointerdown', function () {
-      scene.scene.stop('MainMenuScene');
-      scene.scene.start('SignupScene'), { webcam: this.webcam };
-    });
+      signupButton.on('pointerdown', function () {
+        scene.scene.stop('MainMenuScene');
+        scene.scene.start('SignupScene', { webcam: this.webcam });
+      });
+    } else {
+      //if loggedin, welcome and signout button should show
+
+      const welcomeBack = scene.add
+        .image(width * 0.025, height * 0.05, 'welcomeback')
+        .setOrigin(0)
+        .setDepth(1);
+
+      const signoutButton = scene.add
+        .image(width * 0.971, height * 0.055, 'signout')
+        .setOrigin(1, 0)
+        .setDepth(2)
+        .setInteractive({ useHandCursor: true });
+
+      signoutButton.on('pointerdown', function () {
+        window.localStorage.removeItem('token');
+        scene.scene.start('MainMenuScene', { webcam: this.webcam });
+      });
+    }
 
     const howToPlayButton = scene.add
       .image(width * 0.025, height * 0.945, 'howtoplay')
       .setOrigin(0, 1)
       .setDepth(2)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
 
     howToPlayButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
@@ -90,7 +114,7 @@ export default class MainMenuScene extends Phaser.Scene {
       .image(width * 0.98, height * 0.94, 'leaderboard')
       .setOrigin(1, 1)
       .setDepth(2)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
 
     leaderboardButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
@@ -100,7 +124,7 @@ export default class MainMenuScene extends Phaser.Scene {
     const startGameButton = scene.add
       .image(width * 0.48, height * 0.875, 'startgame')
       .setDepth(2)
-      .setInteractive({ userHandCursor: true });
+      .setInteractive({ useHandCursor: true });
 
     startGameButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
