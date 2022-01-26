@@ -142,6 +142,9 @@ export default class EndlessScene extends Phaser.Scene {
     //   },
     //   loop: true,
     // });
+    // const generateGrape = (offset = 0) => {
+    //   this.redGrapes.create(offset + Math.random() * width, 0, 'red-grape');
+    // };
 
     this.updateStatsBoard = () => {
       this.statsBoard.setText(
@@ -169,7 +172,6 @@ export default class EndlessScene extends Phaser.Scene {
         grapes: this.grapes,
       });
     }
-    this.player.x = gameOptions.playerStartPosition[0];
 
     // recycling platforms
     let minDistance = width;
