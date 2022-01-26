@@ -169,6 +169,8 @@ export default class EndlessScene extends Phaser.Scene {
       });
     }
 
+    this.player.x = gameOptions.playerStartPosition[0];
+
     // recycling platforms
     let minDistance = width;
     let rightmostPlatformHeight = 0;
