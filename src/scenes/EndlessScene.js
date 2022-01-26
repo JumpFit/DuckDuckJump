@@ -188,20 +188,20 @@ export default class EndlessScene extends Phaser.Scene {
         caloriesBurned: calsBurned,
         webcam: this.webcam,
       });
+    } else {
+      this.generatePlatform();
+      this.player.x = gameOptions.playerStartPosition[0];
+
+      // recycling grapes
+      this.grapeGroup.getChildren().forEach(function (grape) {
+        if (grape.x < -grape.displayWidth / 2) {
+          this.grapeGroup.killAndHide(grape);
+          this.grapeGroup.remove(grape);
+        }
+      }, this);
+
+      this.player.update(delta);
     }
-
-    this.generatePlatform();
-    this.player.x = gameOptions.playerStartPosition[0];
-
-    // recycling grapes
-    this.grapeGroup.getChildren().forEach(function (grape) {
-      if (grape.x < -grape.displayWidth / 2) {
-        this.grapeGroup.killAndHide(grape);
-        this.grapeGroup.remove(grape);
-      }
-    }, this);
-
-    this.player.update(delta);
   }
 
   //main logic to handle platforms
