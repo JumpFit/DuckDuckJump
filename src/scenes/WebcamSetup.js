@@ -25,6 +25,8 @@ export default class WebcamSetup extends Phaser.Scene {
   }
 
   create() {
+    this.events.on('shutdown', this.shutdown, this);
+
     const mainmenuButton = this.add
       .image(
         this.scale.width * 0.02,
@@ -65,6 +67,12 @@ export default class WebcamSetup extends Phaser.Scene {
     this.inputSelect = this.inputSelectHTML.getChildByID('input-select');
     this.inputSelect.addEventListener('change', this.selectVideoInput);
     this.populateInputSelect();
+  }
+
+  shutdown() {
+    if (this.webcam) {
+      this.webcam.destroy();
+    }
   }
 
   async populateInputSelect() {

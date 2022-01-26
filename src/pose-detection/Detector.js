@@ -170,4 +170,14 @@ export default class Detector {
       this.rafId = null;
     }
   }
+
+  /**
+   * Disposes of the TF pose detector
+   */
+  destroy() {
+    if (this.detector) {
+      this.detector.dispose();
+      this.detector = null;
+    }
+  }
 }
