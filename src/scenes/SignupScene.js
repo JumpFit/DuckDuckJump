@@ -24,6 +24,12 @@ export default class SignupScene extends Phaser.Scene {
     this.load.html('signupform', 'assets/text/signupform.html');
   }
 
+  init(data) {
+    if (data) {
+      this.webcam = data.webcam;
+    }
+  }
+
   create() {
     //signup form
     const scene = this;
@@ -52,7 +58,7 @@ export default class SignupScene extends Phaser.Scene {
     // gives main menu button funcitionality
     mainmenuButton.on('pointerdown', function () {
       scene.scene.stop('SignupScene');
-      scene.scene.start('MainMenuScene');
+      scene.scene.start('MainMenuScene', { webcam: this.webcam });
     });
 
     // loads sign up html form
@@ -89,13 +95,13 @@ export default class SignupScene extends Phaser.Scene {
 
         if (newUser !== null) {
           scene.scene.stop('SignupScene');
-          scene.scene.launch('LoginScene');
+          scene.scene.launch('LoginScene', { webcam: this.webcam });
         }
       }
 
       if (event.target.name === 'redirectLoginButton') {
         scene.scene.stop('SignupScene');
-        scene.scene.launch('LoginScene');
+        scene.scene.launch('LoginScene', { webcam: this.webcam });
       }
     });
   }

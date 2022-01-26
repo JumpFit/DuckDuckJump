@@ -7,8 +7,11 @@ const camera = new Camera();
 export default class WebcamSetup extends Phaser.Scene {
   constructor() {
     super('WebcamSetup');
+
+    // VIDEO INPUT
     this.selectVideoInput = this.selectVideoInput.bind(this);
-    this.state = {};
+
+    // METHOD BINDING
     this.beginDetectionTest = this.beginDetectionTest.bind(this);
     this.beginDuckTest = this.beginDuckTest.bind(this);
     this.beginJumpTest = this.beginJumpTest.bind(this);
@@ -25,7 +28,11 @@ export default class WebcamSetup extends Phaser.Scene {
   }
 
   create() {
-    const mainmenuButton = this.add
+    this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.events.on('shutdown', this.shutdown, this);
+
+    this.mainmenuButton = this.add
       .image(
         this.scale.width * 0.02,
         this.scale.height * 0.95,
@@ -34,7 +41,7 @@ export default class WebcamSetup extends Phaser.Scene {
       .setOrigin(0, 1)
       .setDepth(1)
       .setInteractive({ userHandCursor: true });
-    mainmenuButton.on('pointerdown', () => {
+    this.mainmenuButton.on('pointerdown', () => {
       this.scene.stop('WebcamSetup');
       this.scene.start('MainMenuScene');
     });
@@ -65,6 +72,27 @@ export default class WebcamSetup extends Phaser.Scene {
     this.inputSelect = this.inputSelectHTML.getChildByID('input-select');
     this.inputSelect.addEventListener('change', this.selectVideoInput);
     this.populateInputSelect();
+  }
+
+  update() {
+    this.cursors.up.on('down', () => {
+      this.events.emit('jump');
+    });
+    if (this.cursors.down.isDown) {
+      this.events.emit('duck');
+    }
+    this.cursors.up.on('up', () => {
+      this.events.emit('neutral');
+    });
+    this.cursors.down.on('up', () => {
+      this.events.emit('neutral');
+    });
+  }
+
+  shutdown() {
+    if (this.webcam) {
+      this.webcam.destroy();
+    }
   }
 
   async populateInputSelect() {
@@ -136,7 +164,7 @@ export default class WebcamSetup extends Phaser.Scene {
         if (countdown === 0) {
           this.webcam.endDetection();
           this.time.removeAllEvents();
-          this.scene.setVisible(false);
+          this.setVisible(false);
           this.scene.run(this.mode, this.webcam);
         }
         this.text.setText(`Nice!  Get ready to start in ${countdown}`);
@@ -146,8 +174,13 @@ export default class WebcamSetup extends Phaser.Scene {
   }
 
   playAgain() {
-    this.scene.setVisible(true);
+    this.setVisible(true);
     this.webcam.setPlayer(this.events);
     this.beginDetectionTest();
+  }
+
+  setVisible(isVisible) {
+    this.mainmenuButton.setVisible(isVisible);
+    this.scene.setVisible(isVisible);
   }
 }

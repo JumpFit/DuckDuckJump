@@ -2,6 +2,8 @@ export const BACKGROUND_COLOR = '#4bb9fa';
 
 export const GREY_BACKGROUND_COLOR = '#9b9b9b';
 
+export const STATS_COLOR = '#ffde59';
+
 export const ACCENT_COLOR = '#447FF1';
 
 //Several values to use inside of EndlessScene

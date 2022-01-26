@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { ACCENT_COLOR } from '../utils/constants';
+import { STATS_COLOR, ACCENT_COLOR } from '../utils/constants';
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -43,7 +43,7 @@ export default class GameOverScene extends Phaser.Scene {
       .text(width * 0.58, height * 0.378, `${this.score || 0}`, {
         fontSize: 85,
         fontFamily: 'HortaRegular',
-        color: '#ffde59',
+        color: STATS_COLOR,
       })
       .setDepth(1)
       .setShadow(3.5, 3.5, ACCENT_COLOR);
@@ -53,7 +53,7 @@ export default class GameOverScene extends Phaser.Scene {
       .text(width * 0.58, height * 0.475, `${this.grapes || 0}`, {
         fontSize: 85,
         fontFamily: 'HortaRegular',
-        color: '#ffde59',
+        color: STATS_COLOR,
       })
       .setDepth(1)
       .setShadow(3.5, 3.5, ACCENT_COLOR);
@@ -63,8 +63,8 @@ export default class GameOverScene extends Phaser.Scene {
     const caloriesBurned = scene.add
       .text(width * 0.58, height * 0.57, `${this.caloriesBurned || 0}`, {
         fontSize: 85,
-        fontFamily: 'Horta',
-        color: '#ffde59',
+        fontFamily: 'HortaRegular',
+        color: STATS_COLOR,
       })
       .setDepth(1)
       .setShadow(3.5, 3.5, ACCENT_COLOR);

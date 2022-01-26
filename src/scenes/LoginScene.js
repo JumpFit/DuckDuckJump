@@ -7,7 +7,11 @@ export default class LoginScene extends Phaser.Scene {
     this.state = {};
   }
 
-  init(data) {}
+  init(data) {
+    if (data) {
+      this.webcam = data.webcam;
+    }
+  }
 
   preload() {
     this.load.image(
@@ -47,7 +51,7 @@ export default class LoginScene extends Phaser.Scene {
     // gives main menu button funcitionality
     mainmenuButton.on('pointerdown', function () {
       scene.scene.stop('LoginScene');
-      scene.scene.start('MainMenuScene');
+      scene.scene.start('MainMenuScene', { webcam: this.webcam });
     });
 
     // loads login html form
