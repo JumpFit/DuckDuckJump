@@ -29,9 +29,6 @@ export default class GameOverScene extends Phaser.Scene {
     const scene = this;
     const { width, height } = this.scale;
 
-    // loading in drop shadow plugin
-    const postFxPlugin = this.plugins.get('rexdropshadowpipelineplugin');
-
     // background with score, grape, calories burned
     scene.add
       .image(0, 0, 'gameoverBackground')
@@ -43,8 +40,8 @@ export default class GameOverScene extends Phaser.Scene {
 
     // Score:
     const score = scene.add
-      .text(width * 0.58, height * 0.378, `${this.score || 254840}`, {
-        fontSize: 87,
+      .text(width * 0.58, height * 0.378, `${this.score || 0}`, {
+        fontSize: 85,
         fontFamily: 'HortaRegular',
         color: '#ffde59',
       })
@@ -53,8 +50,8 @@ export default class GameOverScene extends Phaser.Scene {
 
     // Grapes:
     const grapes = scene.add
-      .text(width * 0.58, height * 0.475, `${this.grapes || 55}`, {
-        fontSize: 87,
+      .text(width * 0.58, height * 0.475, `${this.grapes || 0}`, {
+        fontSize: 85,
         fontFamily: 'HortaRegular',
         color: '#ffde59',
       })
@@ -64,8 +61,8 @@ export default class GameOverScene extends Phaser.Scene {
     // Calories Burned:
 
     const caloriesBurned = scene.add
-      .text(width * 0.58, height * 0.57, `${this.caloriesBurned || 450}`, {
-        fontSize: 88,
+      .text(width * 0.58, height * 0.57, `${this.caloriesBurned || 0}`, {
+        fontSize: 85,
         fontFamily: 'Horta',
         color: '#ffde59',
       })
