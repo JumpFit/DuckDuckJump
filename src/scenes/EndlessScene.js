@@ -2,6 +2,9 @@ import * as Phaser from 'phaser';
 import { gameOptions, BACKGROUND_COLOR } from '../utils/constants';
 import { Player } from '../classes/Player';
 
+let frontClouds;
+let backClouds;
+
 export default class EndlessScene extends Phaser.Scene {
   constructor() {
     super({ key: 'EndlessScene' });
@@ -19,14 +22,8 @@ export default class EndlessScene extends Phaser.Scene {
   }
   create() {
     const { width, height } = this.scale;
-    this.backClouds = this.add.tileSprite(
-      width / 2,
-      75,
-      width,
-      150,
-      'back-clouds'
-    );
-    this.frontClouds = this.add.tileSprite(
+    backClouds = this.add.tileSprite(width / 2, 75, width, 150, 'back-clouds');
+    frontClouds = this.add.tileSprite(
       width / 2,
       75,
       width,
@@ -158,8 +155,8 @@ export default class EndlessScene extends Phaser.Scene {
   update(time, delta) {
     const { width, height } = this.scale;
 
-    this.frontClouds.tilePositionX += 0.5;
-    this.backClouds.tilePositionX += 0.25;
+    frontClouds.tilePositionX += 0.5;
+    backClouds.tilePositionX += 0.25;
 
     // game over
     if (this.player.y > height) {
@@ -226,6 +223,5 @@ export default class EndlessScene extends Phaser.Scene {
       );
     }
     this.player.update(delta);
-    console.log(this.player.x);
   }
 }
