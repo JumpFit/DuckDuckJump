@@ -1,0 +1,25 @@
+body {
+  font-family: 'HortaRegular';
+}
+
+#input-select {
+  font-family: 'HortaRegular';
+  font-size: large;
+  width: 25em;
+}
+
+label {
+  font-family: 'HortaRegular';
+}
+
+label {
+  font-size: x-large;
+}
+
+button {
+  font-size: large;
+}
+
+.invisibleLabel {
+  visibility: hidden;
+}

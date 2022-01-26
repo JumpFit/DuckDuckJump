@@ -6,6 +6,8 @@ import LoginScene from './scenes/LoginScene';
 import MainMenuScene from './scenes/MainMenuScene';
 import EndlessScene from './scenes/EndlessScene';
 import GameOverScene from './scenes/GameOverScene';
+import WebcamSetup from './scenes/WebcamSetup';
+import LeaderBoardScene from './scenes/LeaderBoard';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -19,6 +21,8 @@ class Game extends Phaser.Game {
     this.scene.add('PlayScene', PlayScene);
     this.scene.add('EndlessScene', EndlessScene);
     this.scene.add('GameOverScene', GameOverScene);
+    this.scene.add('WebcamSetup', WebcamSetup);
+    this.scene.add('LeaderBoardScene', LeaderBoardScene);
 
     // initially loads in scene, will set as Login for now
     this.scene.start('MainMenuScene');

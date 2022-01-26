@@ -38,7 +38,7 @@ export default class SignupScene extends Phaser.Scene {
 
     // loads signup title
     scene.add
-      .image(width * 0.445, height * 0.255, 'signup')
+      .image(width * 0.445, height * 0.215, 'signup')
       .setOrigin(0)
       .setDepth(1);
 
@@ -57,7 +57,7 @@ export default class SignupScene extends Phaser.Scene {
 
     // loads sign up html form
     scene.inputElement = scene.add
-      .dom(width / 2, height / 2)
+      .dom(width * 0.705, height * 0.45)
       .createFromCache('signupform')
       .setDepth(1);
 

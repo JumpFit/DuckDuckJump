@@ -2,27 +2,59 @@
 <html>
   <body>
     <div class="container">
-      <form>
-        <div>
-          <label for="username">Username</label>
-          <br />
-          <input type="text" id="username" name="username" required autofocus />
+      <form class="row g-3">
+        <div class="row">
+          <div class="col-md-5">
+            <label for="username" class="form-label">USERNAME</label>
+            <br />
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="form-control"
+              required
+              autofocus
+            />
+          </div>
         </div>
-        <div>
-          <label for="password">Password</label>
-          <br />
-          <input type="password" id="password" name="password" required />
+        <div class="row">
+          <div class="col-md-5">
+            <label for="password" class="form-label">PASSWORD</label>
+            <br />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              required
+            />
+          </div>
         </div>
         <br />
-        <button type="button" id="loginButton" name="loginButton">Login</button>
-        <br /><br />
-        <button
-          type="button"
-          id="redirectSignupButton"
-          name="redirectSignupButton"
-        >
-          Don't have an account? Sign up!
-        </button>
+        <div class="row">
+          <label class="invisibleLabel">IN</label>
+          <div class="col-md-1">
+            <button
+              type="button"
+              id="loginButton"
+              name="loginButton"
+              class="btn btn-success btn-lg active"
+            >
+              LOGIN
+            </button>
+          </div>
+          <div class="col-md-5">
+            <label class="invisibleLabel">IN</label>
+            <button
+              type="button"
+              id="redirectSignupButton"
+              name="redirectSignupButton"
+              class="btn btn-dark btn-lg active"
+            >
+              DON'T HAVE AN ACCOUNT? SIGN UP!
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   </body>
