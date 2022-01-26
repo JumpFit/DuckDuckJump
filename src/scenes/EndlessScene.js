@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
+import axios from 'axios';
 import { gameOptions, BACKGROUND_COLOR } from '../utils/constants';
+import { totalCalsBurned } from '../utils/calculators';
 import { Player } from '../classes/Player';
 
 export default class EndlessScene extends Phaser.Scene {
@@ -150,21 +152,40 @@ export default class EndlessScene extends Phaser.Scene {
     };
   }
 
-  update(time, delta) {
+  async update(time, delta) {
     const { width, height } = this.scale;
 
     this.frontClouds.tilePositionX += 0.5;
     this.backClouds.tilePositionX += 0.25;
 
-    // game over
+    // GAME OVER
     if (this.player.y > height) {
       this.webcam.endDetection();
+
+      // calculates the total calories burned per game
+      const calsBurned = totalCalsBurned(
+        150,
+        this.player.jumps,
+        this.player.ducks
+      );
+
       this.scene.stop('EndlessScene');
+
+      // creates game instance in database
+      const newGame = await axios.post('/api/games', {
+        score: this.score,
+        jumps: this.player.jumps,
+        ducks: this.player.ducks,
+        caloriesBurned: calsBurned,
+      });
+
+      // starts Game Over Scene with stats passed through
       this.scene.start('GameOverScene', {
         score: this.score,
         jumps: this.player.jumps,
         ducks: this.player.ducks,
         grapes: this.grapes,
+        caloriesBurned: calsBurned,
         webcam: this.webcam,
       });
     }

@@ -1,6 +1,5 @@
 import * as Phaser from 'phaser';
 import { ACCENT_COLOR } from '../utils/constants';
-import { totalCalsBurned } from '../utils/calculators';
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -8,12 +7,13 @@ export default class GameOverScene extends Phaser.Scene {
     this.state = {};
   }
 
-  init({ webcam, score, grapes, jumps, ducks }) {
+  init({ webcam, score, grapes, jumps, ducks, caloriesBurned }) {
     this.webcam = webcam;
     this.score = score;
     this.grapes = grapes;
     this.jumps = jumps;
     this.ducks = ducks;
+    this.caloriesBurned = caloriesBurned;
   }
 
   preload() {
@@ -63,11 +63,8 @@ export default class GameOverScene extends Phaser.Scene {
 
     // Calories Burned:
 
-    // calculates the total calories burned per game
-    const CalsBurned = totalCalsBurned(150, this.jumps, this.add.ducks);
-
     const caloriesBurned = scene.add
-      .text(width * 0.58, height * 0.57, `${CalsBurned || 450}`, {
+      .text(width * 0.58, height * 0.57, `${this.caloriesBurned || 450}`, {
         fontSize: 88,
         fontFamily: 'Horta',
         color: '#ffde59',
