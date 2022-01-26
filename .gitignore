@@ -111,3 +111,6 @@ bundle.js
 
 # Files navigating from finder
 .DS_Store
+
+# iCloud Files
+*.icloud
