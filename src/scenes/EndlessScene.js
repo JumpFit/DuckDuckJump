@@ -187,7 +187,7 @@ export default class EndlessScene extends Phaser.Scene {
       this.webcam.endDetection();
 
       // calculates the total calories burned per game
-      const calsBurned = totalCalsBurned(
+      this.calsBurned = totalCalsBurned(
         150,
         this.player.jumps,
         this.player.ducks
@@ -203,7 +203,7 @@ export default class EndlessScene extends Phaser.Scene {
         jumps: this.player.jumps,
         ducks: this.player.ducks,
         grapes: this.grapes,
-        caloriesBurned: calsBurned,
+        caloriesBurned: this.calsBurned,
         webcam: this.webcam,
       });
     } else {
@@ -228,7 +228,7 @@ export default class EndlessScene extends Phaser.Scene {
       score: this.score,
       jumps: this.player.jumps,
       ducks: this.player.ducks,
-      caloriesBurned: calsBurned,
+      caloriesBurned: this.calsBurned,
     });
   }
 
