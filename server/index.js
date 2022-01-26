@@ -35,7 +35,11 @@ const PORT = process.env.PORT || 8080;
 
 const startServer = async () => {
   try {
-    await db.sync({ force: true });
+    if (process.env.RESETDB === 'true') {
+      await db.sync({ force: true });
+    } else {
+      await db.sync();
+    }
 
     app.listen(PORT, () => {
       console.log(`server is listening on port ${PORT}`);
