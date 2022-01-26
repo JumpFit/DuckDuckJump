@@ -1,4 +1,6 @@
-export const BACKGROUND_COLOR = '#5DACD8';
+export const BACKGROUND_COLOR = '#4bb9fa';
+
+export const GREY_BACKGROUND_COLOR = '#9b9b9b';
 
 //Several values to use inside of EndlessScene
 export const gameOptions = {
