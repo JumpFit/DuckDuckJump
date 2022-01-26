@@ -35,6 +35,17 @@ export default class WebCam extends Phaser.GameObjects.Video {
         0x000000
       )
       .setStrokeStyle(3, 0xffffff);
+    this.scene.add
+      .text(
+        this.scene.scale.width * 0.5,
+        this.scene.scale.height * 0.5,
+        'Loading...',
+        {
+          fontFamily: 'HortaRegular',
+          fontSize: '2rem',
+        }
+      )
+      .setOrigin(0.5);
 
     this.detector = new Detector();
     const [stream] = await Promise.all([
