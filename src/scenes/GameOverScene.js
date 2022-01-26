@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { GREY_BACKGROUND_COLOR } from '../constants';
+import { GREY_BACKGROUND_COLOR, DROPSHADOW_COLOR } from '../utils/constants';
 import { totalCalsBurned } from '../utils/calculators';
 
 export default class GameOverScene extends Phaser.Scene {
@@ -14,10 +14,6 @@ export default class GameOverScene extends Phaser.Scene {
     this.grapes = grapes;
     this.jumps = jumps;
     this.ducks = ducks;
-    console.log('FINAL SCORE!!!', this.score);
-    console.log('GRAPES!!!!', this.grapes);
-    console.log('JUMPS!!!!', this.jumps);
-    console.log('DUCKS!!!!', this.ducks);
   }
 
   preload() {
@@ -33,6 +29,9 @@ export default class GameOverScene extends Phaser.Scene {
     const scene = this;
     const { width, height } = this.scale;
 
+    // loading in drop shadow plugin
+    const postFxPlugin = this.plugins.get('rexdropshadowpipelineplugin');
+
     // background with score, grape, calories burned
     scene.add
       .image(0, 0, 'gameoverBackground')
@@ -40,35 +39,41 @@ export default class GameOverScene extends Phaser.Scene {
       .setDepth(0)
       .setDisplaySize(width, height);
 
-    // STATS:
+    // STATS
 
     // Score:
-    scene.add.text(width * 0.58, height * 0.378, `${this.score || 254840}`, {
-      backgroundColor: GREY_BACKGROUND_COLOR,
-      fontSize: 87,
-      fontFamily: 'HortaRegular',
-      color: '#ffde59',
-    });
+    const score = scene.add
+      .text(width * 0.58, height * 0.378, `${this.score || 254840}`, {
+        fontSize: 87,
+        fontFamily: 'HortaRegular',
+        color: '#ffde59',
+      })
+      .setDepth(1)
+      .setShadow(3.5, 3.5, DROPSHADOW_COLOR);
 
     // Grapes:
-    scene.add.text(width * 0.58, height * 0.475, `${this.grapes || 55}`, {
-      backgroundColor: GREY_BACKGROUND_COLOR,
-      fontSize: 87,
-      fontFamily: 'HortaRegular',
-      color: '#ffde59',
-    });
+    const grapes = scene.add
+      .text(width * 0.58, height * 0.475, `${this.grapes || 55}`, {
+        fontSize: 87,
+        fontFamily: 'HortaRegular',
+        color: '#ffde59',
+      })
+      .setDepth(1)
+      .setShadow(3.5, 3.5, DROPSHADOW_COLOR);
 
     // Calories Burned:
 
     // calculates the total calories burned per game
     const CalsBurned = totalCalsBurned(150, this.jumps, this.add.ducks);
 
-    scene.add.text(width * 0.58, height * 0.57, `${CalsBurned || 450}`, {
-      backgroundColor: GREY_BACKGROUND_COLOR,
-      fontSize: 87,
-      fontFamily: 'Horta',
-      color: '#ffde59',
-    });
+    const caloriesBurned = scene.add
+      .text(width * 0.58, height * 0.57, `${CalsBurned || 450}`, {
+        fontSize: 88,
+        fontFamily: 'Horta',
+        color: '#ffde59',
+      })
+      .setDepth(1)
+      .setShadow(3.5, 3.5, DROPSHADOW_COLOR);
 
     // loads main menu button
     const mainmenuButton = scene.add
