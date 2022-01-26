@@ -61,7 +61,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
       loginButton.on('pointerdown', function () {
         scene.scene.stop('MainMenuScene');
-        scene.scene.start('LoginScene');
+        scene.scene.start('LoginScene', { webcam: this.webcam });
       });
 
       const signupButton = scene.add
