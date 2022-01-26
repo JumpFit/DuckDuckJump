@@ -6,7 +6,7 @@ import { Player } from '../classes/Player';
 
 export default class EndlessScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'EndlessScene' });
+    super('EndlessScene');
   }
 
   preload() {
