@@ -134,20 +134,18 @@ export class Player extends Actor {
       this.anims.play('run', true);
     }
 
-    //this.body.setVelocityX(100);
-
-    if (this.body.blocked.right || this.body.onWorldBounds) {
-      console.log('YOURE DEAD!');
-    }
     this.cursors.up.on('down', () => {
       this.emit('jump');
     });
+
     if (this.cursors.down.isDown) {
       this.emit('duck');
     }
+
     this.cursors.up.on('up', () => {
       this.emit('neutral');
     });
+
     this.cursors.down.on('up', () => {
       this.emit('neutral');
     });
