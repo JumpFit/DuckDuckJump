@@ -82,7 +82,7 @@ export default class PlayScene extends Phaser.Scene {
 
     ground.setCollisionByExclusion(-1, true);
     this.player = new Player(this, 30, 450);
-    //this.webcam.setPlayer(this.player);
+    this.webcam.setPlayer(this.player);
     this.player.setVelocityX(200);
     this.player.setOffset(0, 55);
     this.physics.add.collider(this.player, ground, null, null, this);
@@ -168,7 +168,7 @@ export default class PlayScene extends Phaser.Scene {
 
   update(time, delta) {
     if (this.player.x > 7000) {
-      //this.webcam.endDetection();
+      this.webcam.endDetection();
       this.scene.stop('PlayScene');
       this.scene.start('MainMenuScene', { webcam: this.webcam });
     }
