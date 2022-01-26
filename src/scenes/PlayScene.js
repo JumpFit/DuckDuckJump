@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import { Player } from '../classes/Player';
-import { BACKGROUND_COLOR } from '../utils/constants';
+import { gameOptions, BACKGROUND_COLOR } from '../utils/constants';
 
 export default class PlayScene extends Phaser.Scene {
   constructor() {
@@ -30,8 +30,6 @@ export default class PlayScene extends Phaser.Scene {
     this.backClouds = this.add.tileSprite(400, 75, 13500, 150, 'back-clouds');
     this.frontClouds = this.add.tileSprite(400, 75, 13500, 150, 'front-clouds');
 
-    // SCORING:
-
     // GRAPES BOARD:
     this.grapes = 0;
     this.grapesBoard = this.add
@@ -50,6 +48,12 @@ export default class PlayScene extends Phaser.Scene {
       })
       .setOrigin(1, 0)
       .setScrollFactor(0);
+
+    this.updateStatsBoard = () => {
+      this.statsBoard.setText(
+        `Jumps: ${this.player.jumps}, Ducks: ${this.player.ducks}`
+      );
+    };
 
     // SCORE BOARD:
     this.scoreBoard = this.add
@@ -71,11 +75,12 @@ export default class PlayScene extends Phaser.Scene {
     this.physics.add.collider(this.redGrapes, ground);
 
     const generateGrape = (offset = 0) => {
-      this.redGrapes.create(offset + Math.random() * width, 0, 'red-grape');
+      this.redGrapes.create(offset + 500, 0, 'red-grape');
     };
 
     ground.setCollisionByExclusion(-1, true);
-    this.player = new Player(this, 0, 450);
+    this.player = new Player(this, 30, 450, 'duck');
+    this.player.setGravityY(gameOptions.playerGravity);
     this.webcam.setPlayer(this.player);
     this.player.setVelocityX(200);
     this.player.setOffset(0, 55);
@@ -86,28 +91,53 @@ export default class PlayScene extends Phaser.Scene {
       grape.destroy();
     });
 
+    // GUIDING TEXT BOX:
+    this.guideText = [
+      'Jump in place (Or press the Up key) to jump!',
+      'Squat (or press the Down key) to duck!',
+      'Your point count will increase the longer you last',
+      'Collect grapes to buy items (Coming soon)',
+      "That's everything you need! Ready?",
+    ];
+    this.step = -1;
+    this.guide = this.add.text(
+      this.player.x - 200,
+      this.player.y - 50,
+      'Welcome to Duck Duck Jump!',
+      {
+        backgroundColor: 'black',
+        color: 'white',
+        align: 'center',
+        fontSize: 25,
+      }
+    );
+
     // CLOCK FUNCTIONS:
     this.time.addEvent({
-      delay: 1000,
+      delay: 6000,
+      callback: () => {
+        this.step++;
+        if (this.guideText[this.step]) {
+          this.guide.setText(`${this.guideText[this.step]}`);
+        }
+      },
+      loop: true,
+    });
+    this.time.addEvent({
+      delay: 24000,
+      callback: () => {
+        generateGrape(this.player.x);
+      },
+    });
+
+    this.time.addEvent({
+      delay: 10,
       callback: () => {
         this.score++;
         this.scoreBoard.setText(`Score: ${this.score}`);
       },
       loop: true,
     });
-    this.time.addEvent({
-      delay: 5000,
-      callback: () => {
-        generateGrape(this.player.x);
-      },
-      loop: true,
-    });
-
-    this.updateStatsBoard = () => {
-      this.statsBoard.setText(
-        `Jumps: ${this.player.jumps}, Ducks: ${this.player.ducks}`
-      );
-    };
 
     //sets the bounds of the world to the entire width of the provided tilemap
     this.physics.world.bounds.width = ground.width;
@@ -154,5 +184,7 @@ export default class PlayScene extends Phaser.Scene {
     this.frontClouds.tilePositionX += 0.5;
     this.backClouds.tilePositionX += 0.25;
     this.player.update(delta);
+    this.guide.x = this.player.x - 200;
+    this.guide.y = this.player.y - 50;
   }
 }
