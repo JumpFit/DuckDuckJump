@@ -17,6 +17,11 @@ export default class EndlessScene extends Phaser.Scene {
       'assets/characters/duck.json'
     );
   }
+
+  init(webcam) {
+    this.webcam = webcam;
+  }
+
   create() {
     const { width, height } = this.scale;
     this.backClouds = this.add.tileSprite(
@@ -71,6 +76,7 @@ export default class EndlessScene extends Phaser.Scene {
       'duck'
     );
     this.player.setGravityY(gameOptions.playerGravity);
+    this.webcam.setPlayer(this.player);
 
     // group with all active platforms.
     this.platformGroup = this.add.group({
@@ -163,12 +169,14 @@ export default class EndlessScene extends Phaser.Scene {
 
     // game over
     if (this.player.y > height) {
+      this.webcam.endDetection();
       this.scene.stop('EndlessScene');
       this.scene.start('GameOverScene', {
         score: this.score,
         jumps: this.player.jumps,
         ducks: this.player.ducks,
         grapes: this.grapes,
+        webcam: this.webcam,
       });
     }
 
