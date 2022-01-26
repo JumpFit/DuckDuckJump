@@ -72,7 +72,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
       signupButton.on('pointerdown', function () {
         scene.scene.stop('MainMenuScene');
-        scene.scene.start('SignupScene');
+        scene.scene.start('SignupScene', { webcam: this.webcam });
       });
     } else {
       //if loggedin, welcome and signout button should show
@@ -90,7 +90,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
       signoutButton.on('pointerdown', function () {
         window.localStorage.removeItem('token');
-        scene.scene.start('MainMenuScene');
+        scene.scene.start('MainMenuScene', { webcam: this.webcam });
       });
     }
 
