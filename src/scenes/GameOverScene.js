@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { GREY_BACKGROUND_COLOR, DROPSHADOW_COLOR } from '../utils/constants';
+import { ACCENT_COLOR } from '../utils/constants';
 import { totalCalsBurned } from '../utils/calculators';
 
 export default class GameOverScene extends Phaser.Scene {
@@ -49,7 +49,7 @@ export default class GameOverScene extends Phaser.Scene {
         color: '#ffde59',
       })
       .setDepth(1)
-      .setShadow(3.5, 3.5, DROPSHADOW_COLOR);
+      .setShadow(3.5, 3.5, ACCENT_COLOR);
 
     // Grapes:
     const grapes = scene.add
@@ -59,7 +59,7 @@ export default class GameOverScene extends Phaser.Scene {
         color: '#ffde59',
       })
       .setDepth(1)
-      .setShadow(3.5, 3.5, DROPSHADOW_COLOR);
+      .setShadow(3.5, 3.5, ACCENT_COLOR);
 
     // Calories Burned:
 
@@ -73,7 +73,7 @@ export default class GameOverScene extends Phaser.Scene {
         color: '#ffde59',
       })
       .setDepth(1)
-      .setShadow(3.5, 3.5, DROPSHADOW_COLOR);
+      .setShadow(3.5, 3.5, ACCENT_COLOR);
 
     // loads main menu button
     const mainmenuButton = scene.add

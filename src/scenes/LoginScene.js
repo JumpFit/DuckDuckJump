@@ -33,7 +33,7 @@ export default class LoginScene extends Phaser.Scene {
 
     // loads login title
     scene.add
-      .image(width * 0.45, height * 0.345, 'login')
+      .image(width * 0.45, height * 0.21, 'login')
       .setOrigin(0)
       .setDepth(1);
 
@@ -52,7 +52,7 @@ export default class LoginScene extends Phaser.Scene {
 
     // loads login html form
     scene.inputElement = scene.add
-      .dom(width / 2, height / 2)
+      .dom(width * 0.597, height * 0.415)
       .createFromCache('loginform')
       .setDepth(1);
 
