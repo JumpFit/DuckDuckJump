@@ -11,3 +11,15 @@ body {
 label {
   font-family: 'HortaRegular';
 }
+
+label {
+  font-size: x-large;
+}
+
+button {
+  font-size: large;
+}
+
+.invisibleLabel {
+  visibility: hidden;
+}
