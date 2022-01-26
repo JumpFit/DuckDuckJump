@@ -1,6 +1,5 @@
 import * as Phaser from 'phaser';
-import { ACCENT_COLOR } from '../utils/constants';
-import { totalCalsBurned } from '../utils/calculators';
+import { STATS_COLOR, ACCENT_COLOR } from '../utils/constants';
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -8,12 +7,13 @@ export default class GameOverScene extends Phaser.Scene {
     this.state = {};
   }
 
-  init({ webcam, score, grapes, jumps, ducks }) {
+  init({ webcam, score, grapes, jumps, ducks, caloriesBurned }) {
     this.webcam = webcam;
     this.score = score;
     this.grapes = grapes;
     this.jumps = jumps;
     this.ducks = ducks;
+    this.caloriesBurned = caloriesBurned;
   }
 
   preload() {
@@ -29,9 +29,6 @@ export default class GameOverScene extends Phaser.Scene {
     const scene = this;
     const { width, height } = this.scale;
 
-    // loading in drop shadow plugin
-    const postFxPlugin = this.plugins.get('rexdropshadowpipelineplugin');
-
     // background with score, grape, calories burned
     scene.add
       .image(0, 0, 'gameoverBackground')
@@ -43,34 +40,31 @@ export default class GameOverScene extends Phaser.Scene {
 
     // Score:
     const score = scene.add
-      .text(width * 0.58, height * 0.378, `${this.score || 254840}`, {
-        fontSize: 87,
+      .text(width * 0.58, height * 0.378, `${this.score || 0}`, {
+        fontSize: 85,
         fontFamily: 'HortaRegular',
-        color: '#ffde59',
+        color: STATS_COLOR,
       })
       .setDepth(1)
       .setShadow(3.5, 3.5, ACCENT_COLOR);
 
     // Grapes:
     const grapes = scene.add
-      .text(width * 0.58, height * 0.475, `${this.grapes || 55}`, {
-        fontSize: 87,
+      .text(width * 0.58, height * 0.475, `${this.grapes || 0}`, {
+        fontSize: 85,
         fontFamily: 'HortaRegular',
-        color: '#ffde59',
+        color: STATS_COLOR,
       })
       .setDepth(1)
       .setShadow(3.5, 3.5, ACCENT_COLOR);
 
     // Calories Burned:
 
-    // calculates the total calories burned per game
-    const CalsBurned = totalCalsBurned(150, this.jumps, this.add.ducks);
-
     const caloriesBurned = scene.add
-      .text(width * 0.58, height * 0.57, `${CalsBurned || 450}`, {
-        fontSize: 88,
-        fontFamily: 'Horta',
-        color: '#ffde59',
+      .text(width * 0.58, height * 0.57, `${this.caloriesBurned || 0}`, {
+        fontSize: 85,
+        fontFamily: 'HortaRegular',
+        color: STATS_COLOR,
       })
       .setDepth(1)
       .setShadow(3.5, 3.5, ACCENT_COLOR);

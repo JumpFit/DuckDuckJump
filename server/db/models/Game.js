@@ -38,15 +38,6 @@ const Game = db.define('game', {
     },
     defaultValue: 0,
   },
-  elapsedTime: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      min: 0,
-      notEmpty: true,
-    },
-    defaultValue: 0,
-  },
 });
 
 module.exports = Game;
