@@ -2,7 +2,7 @@ export const BACKGROUND_COLOR = '#4bb9fa';
 
 export const GREY_BACKGROUND_COLOR = '#9b9b9b';
 
-export const DROPSHADOW_COLOR = '#447FF1';
+export const ACCENT_COLOR = '#447FF1';
 
 //Several values to use inside of EndlessScene
 export const gameOptions = {

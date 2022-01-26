@@ -81,8 +81,9 @@ export default class MainMenuScene extends Phaser.Scene {
       if (scene.webcam) {
         scene.webcam.mode = 'PlayScene';
         scene.webcam.scene.playAgain();
+      } else {
+        scene.scene.start('WebcamSetup', { mode: 'PlayScene' });
       }
-      scene.scene.start('WebcamSetup', { mode: 'PlayScene' });
     });
 
     const leaderboardButton = scene.add
@@ -93,8 +94,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
     leaderboardButton.on('pointerdown', function () {
       scene.scene.stop('MainMenuScene');
-      // links to GameOverScene for testing, will change to leaderboardsceen later
-      scene.scene.start('GameOverScene');
+      scene.scene.start('LeaderBoardScene', { webcam: this.webcam });
     });
 
     const startGameButton = scene.add
@@ -107,8 +107,9 @@ export default class MainMenuScene extends Phaser.Scene {
       if (scene.webcam) {
         scene.webcam.mode = 'EndlessScene';
         scene.webcam.scene.playAgain();
+      } else {
+        scene.scene.start('WebcamSetup', { mode: 'EndlessScene' });
       }
-      scene.scene.start('WebcamSetup', { mode: 'EndlessScene' });
     });
   }
 
