@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import axios from 'axios';
-import { gameOptions, BACKGROUND_COLOR } from '../utils/constants';
+import { gameOptions, BACKGROUND_COLOR, FONT } from '../utils/constants';
 import { totalCalsBurned } from '../utils/calculators';
 import { Player } from '../classes/Player';
 
@@ -48,27 +48,41 @@ export default class EndlessScene extends Phaser.Scene {
     // GRAPES BOARD:
     this.grapes = 0;
     this.grapesBoard = this.add
-      .text(25, 25, `Grapes: ${this.grapes}`, {
+      .text(25, 180, `Grapes: ${this.grapes}`, {
         backgroundColor: BACKGROUND_COLOR,
-        fontSize: 25,
+        fontSize: 30,
+        fontFamily: FONT,
       })
       .setScrollFactor(0);
 
-    // STATS BOARD:
-    this.statsBoard = this.add
-      .text(width - 25, 25, 'Jumps 0, Ducks: 0', {
+    // JUMPS BOARD:
+    this.jumpsBoard = this.add
+      .text(width - 25, 150, 'Jumps: 0', {
         backgroundColor: BACKGROUND_COLOR,
-        fontSize: 25,
+        fontSize: 30,
         align: 'right',
+        fontFamily: FONT,
+      })
+      .setOrigin(1, 0)
+      .setScrollFactor(0);
+
+    // SQUATS BOARD:
+    this.squatsBoard = this.add
+      .text(width - 25, 181, 'Ducks: 0', {
+        backgroundColor: BACKGROUND_COLOR,
+        fontSize: 30,
+        align: 'right',
+        fontFamily: FONT,
       })
       .setOrigin(1, 0)
       .setScrollFactor(0);
 
     // SCORE BOARD:
     this.scoreBoard = this.add
-      .text(25, 50, 'Score: 0', {
+      .text(25, 150, 'Score: 0', {
         backgroundColor: BACKGROUND_COLOR,
-        fontSize: 25,
+        fontSize: 30,
+        fontFamily: FONT,
       })
       .setScrollFactor(0);
     this.score = 0;
@@ -146,9 +160,8 @@ export default class EndlessScene extends Phaser.Scene {
     });
 
     this.updateStatsBoard = () => {
-      this.statsBoard.setText(
-        `Jumps: ${this.player.jumps}, Ducks: ${this.player.ducks}`
-      );
+      this.jumpsBoard.setText(`Jumps: ${this.player.jumps}`);
+      this.squatsBoard.setText(`Squats: ${this.player.ducks}`);
     };
 
     this.camError = this.add.text(
@@ -159,9 +172,10 @@ export default class EndlessScene extends Phaser.Scene {
         backgroundColor: 'black',
         color: 'white',
         align: 'center',
-        fontSize: 25,
+        fontSize: 30,
         fixedHeight: 30,
         fixedWidth: width,
+        fontFamily: FONT,
       }
     );
     this.camError.setScrollFactor(0);
@@ -246,8 +260,6 @@ export default class EndlessScene extends Phaser.Scene {
     // starts Game Over Scene with stats passed through
     this.scene.launch('GameOverScene', {
       score: this.score,
-      jumps: this.player.jumps,
-      ducks: this.player.ducks,
       grapes: this.grapes,
       caloriesBurned: this.calsBurned,
       webcam: this.webcam,

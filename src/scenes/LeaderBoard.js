@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as Phaser from 'phaser';
-import { ACCENT_COLOR } from '../utils/constants';
+import { ACCENT_COLOR, FONT } from '../utils/constants';
 
 export default class LeaderBoardScene extends Phaser.Scene {
   constructor() {
@@ -52,7 +52,7 @@ export default class LeaderBoardScene extends Phaser.Scene {
 
     scene.scoreList = scene.add
       .text(width * 0.5, height * 0.5, 'Loading...', {
-        fontFamily: 'HortaRegular',
+        fontFamily: FONT,
         fontSize: '3rem',
       })
       .setOrigin(0.5)

@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import { Player } from '../classes/Player';
-import { gameOptions, BACKGROUND_COLOR } from '../utils/constants';
+import { gameOptions, BACKGROUND_COLOR, FONT } from '../utils/constants';
 
 export default class PlayScene extends Phaser.Scene {
   constructor() {
@@ -33,33 +33,46 @@ export default class PlayScene extends Phaser.Scene {
     // GRAPES BOARD:
     this.grapes = 0;
     this.grapesBoard = this.add
-      .text(25, 25, `Grapes: ${this.grapes}`, {
+      .text(25, 180, `Grapes: ${this.grapes}`, {
         backgroundColor: BACKGROUND_COLOR,
-        fontSize: 25,
+        fontSize: 30,
+        fontFamily: FONT,
       })
       .setScrollFactor(0);
 
-    // STATS BOARD:
-    this.statsBoard = this.add
-      .text(width - 25, 25, 'Jumps 0, Ducks: 0', {
+    // JUMPS BOARD:
+    this.jumpsBoard = this.add
+      .text(width - 25, 150, 'Jumps: 0', {
         backgroundColor: BACKGROUND_COLOR,
-        fontSize: 25,
+        fontSize: 30,
         align: 'right',
+        fontFamily: FONT,
+      })
+      .setOrigin(1, 0)
+      .setScrollFactor(0);
+
+    // SQUATS BOARD:
+    this.squatsBoard = this.add
+      .text(width - 25, 181, 'Ducks: 0', {
+        backgroundColor: BACKGROUND_COLOR,
+        fontSize: 30,
+        align: 'right',
+        fontFamily: FONT,
       })
       .setOrigin(1, 0)
       .setScrollFactor(0);
 
     this.updateStatsBoard = () => {
-      this.statsBoard.setText(
-        `Jumps: ${this.player.jumps}, Ducks: ${this.player.ducks}`
-      );
+      this.jumpsBoard.setText(`Jumps: ${this.player.jumps}`);
+      this.squatsBoard.setText(`Squats: ${this.player.ducks}`);
     };
 
     // SCORE BOARD:
     this.scoreBoard = this.add
-      .text(25, 50, 'Score: 0', {
+      .text(25, 150, 'Score: 0', {
         backgroundColor: BACKGROUND_COLOR,
-        fontSize: 25,
+        fontSize: 30,
+        fontFamily: FONT,
       })
       .setScrollFactor(0);
     this.score = 0;
@@ -105,10 +118,11 @@ export default class PlayScene extends Phaser.Scene {
       this.player.y - 50,
       'Welcome to Duck Duck Jump!',
       {
-        backgroundColor: 'black',
+        backgroundColor: BACKGROUND_COLOR,
+        fontFamily: FONT,
         color: 'white',
-        align: 'center',
-        fontSize: 25,
+        align: 'justify',
+        fontSize: 30,
       }
     );
 
@@ -157,9 +171,10 @@ export default class PlayScene extends Phaser.Scene {
         backgroundColor: 'black',
         color: 'white',
         align: 'center',
-        fontSize: 25,
+        fontSize: 30,
         fixedHeight: 30,
         fixedWidth: width,
+        fontFamily: FONT,
       }
     );
     this.camError.setScrollFactor(0);

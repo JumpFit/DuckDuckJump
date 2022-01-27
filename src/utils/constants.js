@@ -6,6 +6,8 @@ export const STATS_COLOR = '#ffde59';
 
 export const ACCENT_COLOR = '#447FF1';
 
+export const FONT = 'HortaRegular';
+
 //Several values to use inside of EndlessScene
 export const gameOptions = {
   platformSpeedRange: [300, 350], //pixels per second

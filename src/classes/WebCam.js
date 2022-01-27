@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Camera from '../pose-detection/Camera';
 import Detector from '../pose-detection/Detector';
+import { FONT } from '../utils/constants';
 
 export default class WebCam extends Phaser.GameObjects.Video {
   constructor(
@@ -42,7 +43,7 @@ export default class WebCam extends Phaser.GameObjects.Video {
         this.scene.scale.height * 0.5,
         'Loading...',
         {
-          fontFamily: 'HortaRegular',
+          fontFamily: FONT,
           fontSize: '2rem',
         }
       )

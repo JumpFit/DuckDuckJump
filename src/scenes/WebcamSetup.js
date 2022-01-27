@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import Camera from '../pose-detection/Camera';
 import WebCam from '../classes/WebCam';
+import { FONT } from '../utils/constants';
 
 const camera = new Camera();
 
@@ -60,7 +61,7 @@ export default class WebcamSetup extends Phaser.Scene {
         this.scale.width / 2,
         this.scale.height * 0.95,
         'Select your webcam',
-        { fontSize: '2rem', fontFamily: 'HortaRegular' }
+        { fontSize: '2rem', fontFamily: FONT }
       )
       .setOrigin(0.5, 1);
 
