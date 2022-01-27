@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { STATS_COLOR, ACCENT_COLOR } from '../utils/constants';
+import { STATS_COLOR, ACCENT_COLOR, FONT } from '../utils/constants';
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -7,12 +7,10 @@ export default class GameOverScene extends Phaser.Scene {
     this.state = {};
   }
 
-  init({ webcam, score, grapes, jumps, ducks, caloriesBurned }) {
+  init({ webcam, score, grapes, caloriesBurned }) {
     this.webcam = webcam;
     this.score = score;
     this.grapes = grapes;
-    this.jumps = jumps;
-    this.ducks = ducks;
     this.caloriesBurned = caloriesBurned;
   }
 
@@ -41,8 +39,8 @@ export default class GameOverScene extends Phaser.Scene {
     // Score:
     const score = scene.add
       .text(width * 0.58, height * 0.378, `${this.score || 0}`, {
-        fontSize: 85,
-        fontFamily: 'HortaRegular',
+        fontSize: 80,
+        fontFamily: FONT,
         color: STATS_COLOR,
       })
       .setDepth(1)
@@ -51,8 +49,8 @@ export default class GameOverScene extends Phaser.Scene {
     // Grapes:
     const grapes = scene.add
       .text(width * 0.58, height * 0.475, `${this.grapes || 0}`, {
-        fontSize: 85,
-        fontFamily: 'HortaRegular',
+        fontSize: 80,
+        fontFamily: FONT,
         color: STATS_COLOR,
       })
       .setDepth(1)
@@ -62,8 +60,8 @@ export default class GameOverScene extends Phaser.Scene {
 
     const caloriesBurned = scene.add
       .text(width * 0.58, height * 0.57, `${this.caloriesBurned || 0}`, {
-        fontSize: 85,
-        fontFamily: 'HortaRegular',
+        fontSize: 80,
+        fontFamily: FONT,
         color: STATS_COLOR,
       })
       .setDepth(1)
