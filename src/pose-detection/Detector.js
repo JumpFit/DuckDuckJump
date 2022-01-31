@@ -91,7 +91,7 @@ export default class Detector {
     const leftHipY = points[11].y;
     const rightHipY = points[12].y;
 
-    this.updateAnkleQueue(leftAnkleY, rightAnkleY);
+    this.updateAnkleData(leftAnkleY, rightAnkleY);
     this.updateBaseHipToKnees(leftKneeY, leftHipY, rightKneeY, rightHipY);
     this.updateBaseAnklesToKnees(
       leftAnkleY,
@@ -149,24 +149,38 @@ export default class Detector {
   }
 
   /**
-   * Update ankle queue with new data
+   * Update ankle data
    * @param {Keypoint} leftAnkleY
    * @param {Keypoint} rightAnkleY
    */
-  updateAnkleQueue(leftAnkleY, rightAnkleY) {
-    // Add ankles to Queue:
+  updateAnkleData(leftAnkleY, rightAnkleY) {
+    this.addNewAnkleDataToQueue(leftAnkleY, rightAnkleY);
+    this.removeOldAnkleDataFromQueue();
+
+    this.base.leftAnkleY = Math.max(...this.base.leftAnkleQueue);
+    this.base.rightAnkleY = Math.max(...this.base.leftAnkleQueue);
+  }
+
+  /**
+   * Add new ankle data to queue
+   * @param {Keypoint} leftAnkleY
+   * @param {Keypoint} rightAnkleY
+   */
+  addNewAnkleDataToQueue(leftAnkleY, rightAnkleY) {
     this.base.leftAnkleQueue.push(leftAnkleY);
     this.base.rightAnkleQueue.push(rightAnkleY);
+  }
 
-    // Remove ankle data older than 1.5s from queue
+  /**
+   * Remove old ankle data from queue
+   */
+  removeOldAnkleDataFromQueue() {
     const elapsedTime = (performance || Date).now() - this.base.timer;
     if (this.base.leftAnkleQueue.length > 1 && elapsedTime > 1500) {
       this.base.leftAnkleQueue.shift();
       this.base.rightAnkleQueue.shift();
       this.base.timer = (performance || Date).now();
     }
-    this.base.leftAnkleY = Math.max(...this.base.leftAnkleQueue);
-    this.base.rightAnkleY = Math.max(...this.base.leftAnkleQueue);
   }
 
   /**
