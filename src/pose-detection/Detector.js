@@ -84,7 +84,6 @@ export default class Detector {
    * @param {Function} neutralFn
    */
   estimatePose(points, squatFn, jumpFn, neutralFn) {
-    // Set current points:
     const leftAnkleY = points[15].y;
     const rightAnkleY = points[16].y;
     const leftKneeY = points[13].y;
